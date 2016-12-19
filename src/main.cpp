@@ -1,16 +1,17 @@
 #include <iostream>
-#include <string.h>
 #include <stdio.h>
+#include <string>
+
+#include "controller.h"
+
 
 int main(int argc, char* argv[]) {
 
-    int i = 0;
-    std::string out;
-    while(i < argc) {
-        out += "argv[" + std::to_string(i) + "]: " + argv[i] + "\n";
-        i++;
-    }
-    printf("argc: %d\n%s", argc, out.c_str());
+    std::string buf;
+    Controller* con = new Controller();
+    buf = con->filter_message(argv, argc);
+    printf("%s", buf.c_str());
+
 
     return 0;
 }

@@ -1,4 +1,6 @@
-CPP=g++
+CXX=g++
+DEBUG=-g
+CFLAGS= -Wall $(DEBUG) -std=c++11
 
 # source files
 SRC= src/main.cpp
@@ -8,7 +10,7 @@ OUT=sshared
 
 # compile all
 all:
-	$(CPP) -o $(OUT) $(SRC)
+	$(CXX) $(CFLAGS) -o $(OUT) $(SRC)
 
 clean:
 	rm $(OUT)

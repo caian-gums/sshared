@@ -2,7 +2,7 @@
 
 std::string Controller::filter_message(char* mes[], int size) {
 
-    int i = 0;
+    int i = 1;
     std::string out;
     while(i < size) {
         out += "mes[" + std::to_string(i) + "]: " + mes[i] + "\n";

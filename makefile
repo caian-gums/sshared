@@ -6,6 +6,7 @@ INCLUDES=-I./include
 
 # source files
 SRC= src/controller.cpp \
+	src/shamir_dealer.cpp \
 	src/main.cpp
 
 # output

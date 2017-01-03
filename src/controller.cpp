@@ -80,7 +80,7 @@ std::string Controller::print_information() {
     rv += "\n  n = " + std::to_string(this->n);
     rv += "\n  file_path = ";
     if(!this->file_path.empty()) rv += this->file_path;
-    else rv += "NULL";
+    else rv += "<No file provided>";
 
     return rv;
 }

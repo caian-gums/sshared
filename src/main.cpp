@@ -3,6 +3,7 @@
 #include <string>
 
 #include "controller.h"
+#include "shamir_dealer.h"
 
 
 int main(int argc, char* argv[]) {
@@ -13,6 +14,11 @@ int main(int argc, char* argv[]) {
     printf("%s\n", buf.c_str());
 
     buf = con->print_information();
+    printf("%s\n", buf.c_str());
+
+    unsigned int p = 5;
+    ShamirDealer* sd = new ShamirDealer(p);
+    buf = sd->print_information();
     printf("%s\n", buf.c_str());
 
 

@@ -9,3 +9,6 @@ echo "\n[test] correct filter message..."
 ./sshared -in my.file -n 5 -t 3 > output
 echo " - result - "
 cat output
+
+echo "[clean the test file to read/write]"
+rm test.txt

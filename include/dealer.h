@@ -6,24 +6,24 @@
 class Dealer {
 public:
 
-    /* split method splits a message or data in 'n' parts with a 
+    /* [VIRTUAL] split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.
      * 
-     *  @param n        number of parts to be splited
      *  @param t        minimum number os parts required to 
      *                  reconstruct the secret
+     *  @param n        number of parts to be splited
      *
      *  @return void.
      */
-    void split(std::string data, unsigned int n, unsigned int t);
+    virtual void split(std::string data, unsigned int t, unsigned int n) = 0;
 
-    /* join method try reconstruct the secret with the given parts
+    /* [VIRTUAL] join method try reconstruct the secret with the given parts
      * 
      *  @param shares   parts of the secret
      *
      *  @return void.
      */
-    void join(void* shares);
+    virtual void join(void* shares) = 0;
 
 };
  

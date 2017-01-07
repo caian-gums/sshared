@@ -20,7 +20,7 @@ std::string Controller::filter_message(char* mes[], int size) {
     while(i < size) {
         this->set_value(mes[i], mes[i+1]);
         rv += "mes[" + std::to_string(i) + "]: " + mes[i] + "\n";
-        rv += "mes[" + std::to_string(i) + "]: " + mes[i+1] + "\n";
+        rv += "mes[" + std::to_string(i+1) + "]: " + mes[i+1] + "\n";
         // two positions
         i = i + 2;
     }

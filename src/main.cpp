@@ -24,21 +24,6 @@ int main(int argc, char* argv[]) {
     buf = sd->print_information();
     printf("%s\n", buf.c_str());
 
-    // read/write file
-    std::string fp = "test.txt";
-    WritableFile* wf = new WritableFile(fp);
-    wf->open();
-    std::string wfbuf = "Test file.\n1 2 3 test";
-    wf->write(wfbuf);
-    wf->close();
-
-    ReadableFile* rf = new ReadableFile(fp);
-    rf->open();
-    std::string rfbuf = rf->read();
-    rf->close();
-
-    printf("Readed file:\n%s", rfbuf.c_str());
-
 
     return 0;
 }

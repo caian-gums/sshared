@@ -37,6 +37,14 @@ void test_shamir_dealer() {
     buf = sd->print_information();
     printf("%s\n", buf.c_str());
 
+    // split/join test
+    std::string data = "fake data";
+    unsigned int t = 3;
+    unsigned int n = 4;
+    sd->split(data, t, n);
+
+    sd->join(NULL);
+
 }
 
 void test_file() {

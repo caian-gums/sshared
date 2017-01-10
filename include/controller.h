@@ -14,8 +14,8 @@ public:
     /* filter_message filter the recieved message from input
      * program.
      * 
-     *  @param mes[]    list of parameters
-     *  @param size     list size
+     *  @param  mes[]       list of parameters
+     *  @param  size        list size
      *
      *  @return a std::string with some message.
      */
@@ -33,13 +33,14 @@ private:
     // methods
     /* set_value is a general setting value to filer_message.
      * 
-     *  @param art      argument name
-     *  @param value    argument valeu
+     *  @param  art         argument name
+     *  @param  value       argument valeu
      *
      *  @return true if all goes ok, false on error.
      */
     bool set_value(char* arg, char* value);
 
+    // inside set's
     void set_t(char* value);
     void set_n(char* value);
     void set_file_path(char* value);

@@ -12,21 +12,23 @@ public:
     /* split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.
      * 
-     *  @param t        minimum number os parts required to 
-     *                  reconstruct the secret
-     *  @param n        number of parts to be splited
+     *  @param  t           minimum number os parts required to 
+     *                      reconstruct the secret
+     *  @param  n           number of parts to be splited
      *
-     *  @return void.
+     *  @return List<std::string> object with all the parts or
+     *  NULL on fail
      */
-    void split(std::string data, unsigned int t, unsigned int n);
+    List<std::string>* split(std::string data, unsigned int t, unsigned int n);
 
     /* join method try reconstruct the secret with the given parts
      * 
-     *  @param shares   parts of the secret
+     *  @param  shares      parts of the secret as a
+     *                      List<std::string>
      *
-     *  @return void.
+     *  @return std::string of the join operation or NULL on fail
      */
-    void join(void* shares);
+    std::string join(List<std::string>* shares);
 
     // test method
     std::string print_information();

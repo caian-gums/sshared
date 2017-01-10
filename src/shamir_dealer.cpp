@@ -1,20 +1,29 @@
 #include "shamir_dealer.h"
 
-void ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
-    // split method
-    printf("Split method\n");
+List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
+
+    // Error check
+    if(t == 0) return NULL;
+    if(n == 0) return NULL;
+    if(n < t) return NULL;
+
+    List<std::string>* rv = new List<std::string>();
+
     
-    printf("  data: '%s'\n", data.c_str());
-    printf("  t: %u\n", t);
-    printf("  n: %u\n", n);
-    printf("  p: %u\n", this->p);
+    for(unsigned int i = 0; i < n; i++) {
+        if(i < t) rv->add(data);
+        else rv->add("fill");
+    }
+    return rv;
 }
 
-void ShamirDealer::join(void* shares) {
-    // join method
-    printf("Join method\n");
+std::string ShamirDealer::join(List<std::string>* shares) {
+
+    // Error check
+    if(!shares) return NULL;
+
+    return shares->get(0);
     
-    printf("  p: %u\n", this->p);
 }
 
 std::string ShamirDealer::print_information() {

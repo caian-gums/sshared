@@ -37,18 +37,58 @@ void test_shamir_dealer() {
     std::string buf;
     unsigned int p = 5;
     ShamirDealer* sd = new ShamirDealer(p);
+    bool check = true;
 
-    // output test
+    // TEST: output test
+    /*
+    printf("  output test...");
     buf = sd->print_information();
-    printf("%s\n", buf.c_str());
+    printf("\n%s\n", buf.c_str());
+    printf("Ok\n");
+    */
 
-    // split/join test
+
+    // TEST: split test
+    printf("  split test...");
     std::string data = "fake data";
+    List<std::string>* sl = NULL;
     unsigned int t = 3;
-    unsigned int n = 4;
-    sd->split(data, t, n);
+    unsigned int n = 5;
+    sl = sd->split(data, t, n);
+    if(!sl) check = false;
+    if(sl->len() != n) check = false;
 
-    sd->join(NULL);
+    if(!check) {
+        printf("Error on split\n");
+        return;
+    }
+
+    // print list
+    /*
+    printf("\nsl: ");
+    for(unsigned int i = 0; i < sl->len(); i++) {
+        printf("\nsl[%d] = '%s'", i, sl->get(i).c_str());
+    }
+    printf("\n");
+    */
+    
+    printf("Ok\n");
+
+    // TEST: join test
+    printf("  join test...");
+    std::string rv = sd->join(sl);
+    if(rv.empty()) check = false;
+    if(rv.compare(data) != 0) check = false;
+
+    if(!check) {
+        printf("Error on join\n");
+        return;
+    }
+
+    // print return
+    //printf("\nrv = '%s'\n", rv.c_str());
+
+    printf("Ok\n");
 
 }
 
@@ -191,7 +231,7 @@ int main(int argc, char* argv[]) {
 
     printf("[test] controller... \n");
     test_controller(argc, argv);
-    
+
     printf("\n");
     printf("[test] shamir dealer... \n");
     test_shamir_dealer();

@@ -4,6 +4,9 @@
 #include <string>
 #include "list.h"
 
+// Used in error log
+#include <iostream>
+
 class Dealer {
 public:
 

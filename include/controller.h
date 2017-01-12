@@ -4,6 +4,8 @@
 #include <string>
 #include <stdio.h>
 
+// Used in error log
+#include <iostream>
  
 class Controller {
 public:

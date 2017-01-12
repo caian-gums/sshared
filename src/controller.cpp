@@ -12,7 +12,8 @@ std::string Controller::filter_message(char* mes[], int size) {
     std::string rv;
     // check for number of arguments
     if(size % 2 == 0 || size < 2) {
-        rv = "Error on usage. Number of arguments incorrect";
+        std::cerr << "[Controller] Number of arguments incorrect\n";
+        rv = "Error";
         return rv;
     }
 
@@ -54,6 +55,7 @@ bool Controller::set_value(char* arg, char* value) {
             break;
         }
         default:
+            std::cerr << "[Controller] Invalid option: " << arg[1] << "\n";
             return false;
             break;
     }

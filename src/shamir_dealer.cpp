@@ -3,9 +3,18 @@
 List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
     // Error check
-    if(t == 0) return NULL;
-    if(n == 0) return NULL;
-    if(n < t) return NULL;
+    if(t == 0) {
+        std::cerr << "[Dealer] t value invalid";
+        return NULL;
+    }
+    if(n == 0) {
+        std::cerr << "[Dealer] n value invalid";
+        return NULL;
+    }
+    if(n < t) {
+        std::cerr << "[Dealer] n value invalid(n<t)";
+        return NULL;
+    }
 
     List<std::string>* rv = new List<std::string>();
 

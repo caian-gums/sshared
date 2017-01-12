@@ -5,12 +5,12 @@
 void File::open() {
     if(this->fp.empty()) {
         // Error: No filepath
-        std::cout << "Error: No filepath\n";
+        std::cerr << "[File] No filepath\n";
         return;
     }
     if(this->fs.is_open()) {
         // Error: File already opened
-        std::cout << "Error: File already opened\n";
+        std::cerr << "[File] File already opened\n";
         return;
     }
 
@@ -20,7 +20,7 @@ void File::open() {
 void File::close() {
     if(!this->fs.is_open()) {
         // No file opened
-        std::cout << "Error: No open file\n";
+        std::cerr << "[File] No open file\n";
         return;
     }
 
@@ -30,7 +30,7 @@ void File::close() {
 std::string ReadableFile::read() {
     if(!this->fs.is_open()) {
         // No file opened
-        std::cout << "Error: No open file\n";
+        std::cerr << "[File] No open file\n";
         return NULL;
     }
 
@@ -43,7 +43,7 @@ std::string ReadableFile::read() {
         i++;
         if(i >= 10) {
             // Error: file too big
-            std::cout << "Error: File too big\n";
+            std::cerr << "[File] File too big\n";
             buf = "";
             line = "";
             return NULL;
@@ -57,7 +57,7 @@ void WritableFile::write(std::string val) {
     if(!this->fs.is_open()) {
         if(this->fp.empty()) {
             // No file path
-            std::cout << "Error: No file path\n";
+            std::cerr << "[File] No file path\n";
             return;
         }
         if(!this->file_exist()) {

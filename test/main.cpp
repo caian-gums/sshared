@@ -21,9 +21,17 @@ void test_controller(int argc, char* argv[]) {
     // controler test
     std::string buf;
     Controller* con = new Controller();
-    // filter_message test
-    printf("  filter_message...\n");
-    con->filter_message(argv, argc);
+
+    bool check = true;
+    // TEST: filter_message
+    printf("  filter_message...");
+    check = con->filter_message(argv, argc);
+    if(!check) {
+        printf("Error on filter message\n");
+        return;
+    }
+
+    printf("Ok\n");
 
     /* output test
     buf = con->print_information();
@@ -126,7 +134,7 @@ void test_file() {
         return;
     }
 
-    printf("Ok!\n");
+    printf("Ok\n");
     
 }
 

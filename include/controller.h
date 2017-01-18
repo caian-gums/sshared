@@ -50,7 +50,9 @@ private:
     // print help information
     void print_help();
 
-    void call_function();
+    // split/join functions
+    void split();
+    void join();
 
 };
  

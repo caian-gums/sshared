@@ -16,6 +16,8 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         return NULL;
     }
 
+    // TODO: implement the split
+
     List<std::string>* rv = new List<std::string>();
 
     
@@ -30,6 +32,8 @@ std::string ShamirDealer::join(List<std::string>* shares) {
 
     // Error check
     if(!shares) return NULL;
+
+    // TODO: implement the join
 
     return shares->get(0);
     

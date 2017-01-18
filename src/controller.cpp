@@ -8,23 +8,45 @@ Controller::Controller() {
 
 bool Controller::filter_message(char* mes[], int size) {
 
-    // return value
-    std::string rv;
-    // check for number of arguments
-    if(size % 2 == 0 || size < 2) {
-        if(size == 2 && mes[1][1] == 'h') {
-            this->print_help();
-            return true;
-        }
+    // initial check
+    if(size < 2) {
         std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
         return false;
     }
 
-    for(int i = 1; i < size; i += 2)
+    // print help
+    if(mes[1][1] == 'h') {
+        this->print_help();
+        return true;
+    }
+
+    // check if split or join was passed
+    std::string sj = mes[1];
+    if(sj.compare("split") != 0 && sj.compare("join") != 0) {
+        std::cerr << "[Controller] Pass the operation (split or join). Use -h (help)\n";
+        return false;
+    }
+    int nsize = size - 1;
+
+    // check for number of arguments
+    if(nsize % 2 == 0 || nsize < 2) {
+        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        return false;
+    }
+
+    for(int i = 2; i < nsize; i += 2)
         if(!this->set_value(mes[i], mes[i+1]))
             return false;
 
     return true;
+
+}
+
+void Controller::split() {
+
+}
+
+void Controller::join() {
 
 }
 
@@ -75,7 +97,17 @@ void Controller::set_file_path(char* value) {
 }
 
 void Controller::print_help() {
-    std::cout << " << Help information >> \n";
+    std::cout << "sshared lib help information: \n";
+    std::cout << "Usage:\n";
+    std::cout << "./sshared (<operation> <args>)|(-h)\n";
+    std::cout << "  operation:\n";
+    std::cout << "      - split\n";
+    std::cout << "      - join\n";
+    std::cout << "  arguments:\n";
+    std::cout << "      - i: input file\n";
+    std::cout << "      - t: minimum shares\n";
+    std::cout << "      - n: number of shares\n";
+    std::cout << "      - h: help information\n";
 }
 
 std::string Controller::print_information() {

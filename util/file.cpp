@@ -39,7 +39,8 @@ std::string ReadableFile::read() {
     unsigned int i = 0;
     while(!this->fs.eof()) {
         std::getline(this->fs, line);
-        buf += line + "\n";
+        buf += line;
+        if(!this->fs.eof()) buf += "\n";
         i++;
         if(i >= 10) {
             // Error: file too big

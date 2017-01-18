@@ -19,9 +19,9 @@ public:
      *  @param  mes[]       list of parameters
      *  @param  size        list size
      *
-     *  @return a std::string with some message.
+     *  @return true on success or false on fail
      */
-    std::string filter_message(char* mes[], int size);
+    bool filter_message(char* mes[], int size);
 
     // test method
     std::string print_information();
@@ -46,6 +46,9 @@ private:
     void set_t(char* value);
     void set_n(char* value);
     void set_file_path(char* value);
+
+    // print help information
+    void print_help();
 
     void call_function();
 

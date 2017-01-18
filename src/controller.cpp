@@ -6,28 +6,25 @@ Controller::Controller() {
     this->n = 0;
 }
 
-std::string Controller::filter_message(char* mes[], int size) {
+bool Controller::filter_message(char* mes[], int size) {
 
     // return value
     std::string rv;
     // check for number of arguments
     if(size % 2 == 0 || size < 2) {
-        std::cerr << "[Controller] Number of arguments incorrect\n";
-        rv = "Error";
-        return rv;
+        if(size == 2 && mes[1][1] == 'h') {
+            this->print_help();
+            return true;
+        }
+        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        return false;
     }
 
-    int i = 1;
-    while(i < size) {
-        this->set_value(mes[i], mes[i+1]);
-        rv += "mes[" + std::to_string(i) + "]: " + mes[i] + "\n";
-        rv += "mes[" + std::to_string(i+1) + "]: " + mes[i+1] + "\n";
-        // two positions
-        i = i + 2;
-    }
-    rv = "size: " + std::to_string(size) + "\n" + rv;
-    
-    return rv;
+    for(int i = 1; i < size; i += 2)
+        if(!this->set_value(mes[i], mes[i+1]))
+            return false;
+
+    return true;
 
 }
 
@@ -35,6 +32,7 @@ bool Controller::set_value(char* arg, char* value) {
 
     if(arg[0] != '-') {
         // error on arg definition
+        std::cerr << "[Controller] Invalid argument passed: " << arg << "\n";
         return false;
     }
 
@@ -55,7 +53,7 @@ bool Controller::set_value(char* arg, char* value) {
             break;
         }
         default:
-            std::cerr << "[Controller] Invalid option: " << arg[1] << "\n";
+            std::cerr << "[Controller] Invalid option: " << arg << "\n";
             return false;
             break;
     }
@@ -74,6 +72,10 @@ void Controller::set_n(char* value) {
 
 void Controller::set_file_path(char* value) {
     this->file_path = value;
+}
+
+void Controller::print_help() {
+    std::cout << " << Help information >> \n";
 }
 
 std::string Controller::print_information() {

@@ -1,6 +1,13 @@
 echo "# sshared tests\n"
 
-echo "# [CALL] incorrect filter message..."
+echo "\n# [RUN] help information..."
+./stest -h > output 2> errout
+echo "### output ###"
+cat output
+echo "### error output ###"
+cat errout
+
+echo "\n# [CALL] incorrect filter message..."
 ./stest -in my.file -n  > output 2> errout
 echo "### output ###"
 cat output

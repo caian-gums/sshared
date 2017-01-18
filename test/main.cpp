@@ -22,12 +22,13 @@ void test_controller(int argc, char* argv[]) {
     std::string buf;
     Controller* con = new Controller();
     // filter_message test
-    buf = con->filter_message(argv, argc);
-    printf("%s\n", buf.c_str());
+    printf("  filter_message...\n");
+    con->filter_message(argv, argc);
 
-    // output test
+    /* output test
     buf = con->print_information();
     printf("%s\n", buf.c_str());
+    */
 }
 
 /* shamir_dealer tests */
@@ -111,7 +112,22 @@ void test_file() {
     std::string rfbuf = rf->read();
     rf->close();
 
-    printf("readed file:\n%s", rfbuf.c_str());
+    /* See the files:
+    printf("wfbuf: '%s'\nrfbuf: '%s'\n", wfbuf.c_str(), rfbuf.c_str());
+    */
+
+    bool check = true;
+    // TEST: compare test
+    printf("  compare files test...");
+    if(rfbuf.compare(wfbuf) == 0) check = true;
+    else check = false;
+    if(!check) {
+        printf("Error on compare\n");
+        return;
+    }
+
+    printf("Ok!\n");
+    
 }
 
 /* list tests */

@@ -4,6 +4,13 @@
 #include <string>
 #include <stdio.h>
 
+// Util
+#include "list.h"
+
+// Dealers
+#include "shamir_dealer.h"
+
+
 // Used in error log
 #include <iostream>
  
@@ -30,7 +37,9 @@ private:
     // attributes
     int n;
     int t;
+    int p;
     std::string file_path;
+    std::string dealer;
 
     // methods
     /* set_value is a general setting value to filer_message.
@@ -45,7 +54,9 @@ private:
     // inside set's
     void set_t(char* value);
     void set_n(char* value);
+    void set_p(char* value);
     void set_file_path(char* value);
+    void set_dealer(char* value);
 
     // print help information
     void print_help();

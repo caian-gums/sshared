@@ -18,6 +18,10 @@ SRC= src/controller.cpp \
 TST_SRC= src/controller.cpp \
 	src/shamir_dealer.cpp \
 	util/file.cpp \
+	test/test_controller.cpp \
+	test/test_shamir_dealer.cpp \
+	test/test_file.cpp \
+	test/test_list.cpp \
 	test/main.cpp
 
 # output

@@ -18,7 +18,6 @@
 // List include
 #include "list.h"
 
-
 /* controller tests */
 void test_controller(int argc, char* argv[]);
 

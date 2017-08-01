@@ -1,33 +1,72 @@
 #include "controller.h"
 
-
 Controller::Controller() {
     this->t = 0;
     this->n = 0;
+    this->p = 29;
 }
 
-std::string Controller::filter_message(char* mes[], int size) {
+bool Controller::filter_message(char* mes[], int size) {
 
-    // return value
-    std::string rv;
+    // initial check
+    if(size < 2) {
+        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        return false;
+    }
+
+    // print help
+    if(mes[1][1] == 'h') {
+        this->print_help();
+        return true;
+    }
+
+    // check if split or join was passed
+    std::string sj = mes[1];
+    if(sj.compare("split") != 0 && sj.compare("join") != 0) {
+        std::cerr << "[Controller] Pass the operation (split or join). Use -h (help)\n";
+        return false;
+    }
+    int nsize = size - 1;
+
     // check for number of arguments
-    if(size % 2 == 0 || size < 2) {
-        std::cerr << "[Controller] Number of arguments incorrect\n";
-        rv = "Error";
-        return rv;
+    if(nsize % 2 == 0 || nsize < 2) {
+        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        return false;
     }
 
-    int i = 1;
-    while(i < size) {
-        this->set_value(mes[i], mes[i+1]);
-        rv += "mes[" + std::to_string(i) + "]: " + mes[i] + "\n";
-        rv += "mes[" + std::to_string(i+1) + "]: " + mes[i+1] + "\n";
-        // two positions
-        i = i + 2;
+    // set values on Controller
+    for(int i = 2; i < nsize; i += 2)
+        if(!this->set_value(mes[i], mes[i+1]))
+            return false;
+
+    // do split/join operation
+    if(sj.compare("split") == 0) {
+        // split
+        std::cout << " >>SPLIT\n";
+        // TODO: suport others dealers
+        if(this->dealer.empty() || this->dealer.compare("shamir")) {
+            //ShamirDealer* sd = new ShamirDealer(this->p);
+        }
+
+    } else {
+        // join
+        std::cout << " >>JOIN\n";
+        // TODO: suport others dealers
+        if(this->dealer.empty() || this->dealer.compare("shamir")) {
+            //ShamirDealer* sd = new ShamirDealer(this->p);
+        }
     }
-    rv = "size: " + std::to_string(size) + "\n" + rv;
+
+    return true;
+
+}
+
+void Controller::split() {
     
-    return rv;
+
+}
+
+void Controller::join() {
 
 }
 
@@ -35,6 +74,7 @@ bool Controller::set_value(char* arg, char* value) {
 
     if(arg[0] != '-') {
         // error on arg definition
+        std::cerr << "[Controller] Invalid argument passed: " << arg << "\n";
         return false;
     }
 
@@ -54,8 +94,13 @@ bool Controller::set_value(char* arg, char* value) {
             this->set_t(value);
             break;
         }
+        // dealer type value
+        case 'd': {
+            this->set_dealer(value);
+            break;
+        }
         default:
-            std::cerr << "[Controller] Invalid option: " << arg[1] << "\n";
+            std::cerr << "[Controller] Invalid option: " << arg << "\n";
             return false;
             break;
     }
@@ -72,17 +117,46 @@ void Controller::set_n(char* value) {
     this->n = std::stoi(v);
 }
 
+void Controller::set_p(char* value) {
+    std::string v(value);
+    this->p = std::stoi(v);
+}
+
 void Controller::set_file_path(char* value) {
     this->file_path = value;
+}
+
+void Controller::set_dealer(char* value) {
+    this->dealer = value;
+}
+
+void Controller::print_help() {
+    std::cout << "sshared lib help information: \n";
+    std::cout << "Usage:\n";
+    std::cout << "./sshared (<operation> <args>)|(-h)\n";
+    std::cout << "  operation: the operation that will be performed\n";
+    std::cout << "      - split\n";
+    std::cout << "      - join\n";
+    std::cout << "  arguments: each argument must be followed by respective value\n";
+    std::cout << "      - i: input file\n";
+    std::cout << "      - t: minimum shares\n";
+    std::cout << "      - n: number of shares\n";
+    std::cout << "      - d: dealer type(shamir default)\n";
+    std::cout << "      - p: prime number used(29**CHANGE THIS** default)\n";
+    std::cout << "      - h: help information\n";
 }
 
 std::string Controller::print_information() {
     std::string rv = "Controller information: ";
     rv += "\n  t = " + std::to_string(this->t);
     rv += "\n  n = " + std::to_string(this->n);
+    rv += "\n  p = " + std::to_string(this->p);
     rv += "\n  file_path = ";
     if(!this->file_path.empty()) rv += this->file_path;
     else rv += "<No file provided>";
+    rv += "\n  dealer = ";
+    if(!this->dealer.empty()) rv += this->dealer;
+    else rv += "shamir";
 
     return rv;
 }

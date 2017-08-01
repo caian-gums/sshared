@@ -4,6 +4,13 @@
 #include <string>
 #include <stdio.h>
 
+// Util
+#include "list.h"
+
+// Dealers
+#include "shamir_dealer.h"
+
+
 // Used in error log
 #include <iostream>
  
@@ -19,9 +26,9 @@ public:
      *  @param  mes[]       list of parameters
      *  @param  size        list size
      *
-     *  @return a std::string with some message.
+     *  @return true on success or false on fail
      */
-    std::string filter_message(char* mes[], int size);
+    bool filter_message(char* mes[], int size);
 
     // test method
     std::string print_information();
@@ -30,7 +37,9 @@ private:
     // attributes
     int n;
     int t;
+    int p;
     std::string file_path;
+    std::string dealer;
 
     // methods
     /* set_value is a general setting value to filer_message.
@@ -45,9 +54,16 @@ private:
     // inside set's
     void set_t(char* value);
     void set_n(char* value);
+    void set_p(char* value);
     void set_file_path(char* value);
+    void set_dealer(char* value);
 
-    void call_function();
+    // print help information
+    void print_help();
+
+    // split/join functions
+    void split();
+    void join();
 
 };
  

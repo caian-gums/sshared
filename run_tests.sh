@@ -14,11 +14,12 @@ echo
 
 echo -en " ${BOLD_GREEN}[RUN]${NC} ${BOLD}help information${NC}"
 ./stest -h > output 2> errout
+echo
 echo -en "${BOLD_BLUE} --> output${NC}"
 echo
 cat output
 
-if [ -s errout -o ]
+if [ -s errout ]
 then
     echo
     echo -en "${BOLD_MAGENTA} --2> error output${NC}"
@@ -29,6 +30,7 @@ fi
 echo
 echo -en " ${BOLD_GREEN}[RUN]${NC} ${BOLD}incorrect filter message${NC}"
 ./stest split -in my.file -n  > output 2> errout
+echo
 echo -en "${BOLD_BLUE} --> output${NC}"
 echo
 cat output
@@ -44,6 +46,7 @@ fi
 echo
 echo -en " ${BOLD_GREEN}[RUN]${NC} ${BOLD}correct filter message${NC}"
 ./stest split -in my.file -t 3 -n 5 > output 2> errout
+echo
 echo -en "${BOLD_BLUE} --> output${NC}"
 echo
 cat output
@@ -52,6 +55,7 @@ if [ -s errout ]
 then
     echo
     echo -en "${BOLD_MAGENTA} --2> error output${NC}"
+    echo
     cat errout
 fi
 

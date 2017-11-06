@@ -38,7 +38,7 @@ echo 'Extract files...'
 # NTL
 tar -xvzf ${NTL}.tar.gz
 # GMP
-tar -jzvf ${GMP}.tar.bz2
+tar -jxvf ${GMP}.tar.bz2
 # gf2x
 tar -xvzf ${GF2X}.tar.gz
 echo 'Extract done!'

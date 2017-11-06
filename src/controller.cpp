@@ -41,20 +41,9 @@ bool Controller::filter_message(char* mes[], int size) {
 
     // do split/join operation
     if(sj.compare("split") == 0) {
-        // split
-        std::cout << " >>SPLIT\n";
-        // TODO: suport others dealers
-        if(this->dealer.empty() || this->dealer.compare("shamir")) {
-            //ShamirDealer* sd = new ShamirDealer(this->p);
-        }
-
+        this->split();
     } else {
-        // join
-        std::cout << " >>JOIN\n";
-        // TODO: suport others dealers
-        if(this->dealer.empty() || this->dealer.compare("shamir")) {
-            //ShamirDealer* sd = new ShamirDealer(this->p);
-        }
+        this->join();
     }
 
     return true;
@@ -62,12 +51,30 @@ bool Controller::filter_message(char* mes[], int size) {
 }
 
 void Controller::split() {
-    
-
+    // TODO: suport others dealers
+    if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
+        dealer = new ShamirDealer(this->p);
+        // MOCK data
+        std::string data = "mock data";
+        unsigned int t = 2;
+        unsigned int d = 2;
+        // ------
+        dealer->split(data, d, t);
+    }
 }
 
 void Controller::join() {
-
+    // TODO: suport others dealers
+    if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
+        dealer = new ShamirDealer(this->p);
+        // MOCK data
+        List<std::string>* l = new List<std::string>();
+        std::string s = "mock data";
+        l->add(s);
+        // ------
+        dealer->join(l);
+        l->remove();
+    }
 }
 
 bool Controller::set_value(char* arg, char* value) {
@@ -96,7 +103,7 @@ bool Controller::set_value(char* arg, char* value) {
         }
         // dealer type value
         case 'd': {
-            this->set_dealer(value);
+            this->set_dealer_type(value);
             break;
         }
         default:
@@ -126,8 +133,8 @@ void Controller::set_file_path(char* value) {
     this->file_path = value;
 }
 
-void Controller::set_dealer(char* value) {
-    this->dealer = value;
+void Controller::set_dealer_type(char* value) {
+    this->dealer_type = value;
 }
 
 void Controller::print_help() {
@@ -154,8 +161,8 @@ std::string Controller::print_information() {
     rv += "\n  file_path = ";
     if(!this->file_path.empty()) rv += this->file_path;
     else rv += "<No file provided>";
-    rv += "\n  dealer = ";
-    if(!this->dealer.empty()) rv += this->dealer;
+    rv += "\n  dealer type = ";
+    if(!this->dealer_type.empty()) rv += this->dealer_type;
     else rv += "shamir";
 
     return rv;

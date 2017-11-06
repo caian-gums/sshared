@@ -2,6 +2,12 @@
 
 List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
+    // TODO(test): split operation
+    if (data.compare("mock data") == 0) {
+        std::cout << " >>SPLIT\n";
+        return NULL;
+    }
+
     // Error check
     if(t == 0) {
         std::cerr << "[Dealer] t value invalid";
@@ -29,6 +35,12 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
 }
 
 std::string ShamirDealer::join(List<std::string>* shares) {
+
+    // TODO(test): join operation
+    if (!shares && shares->get(0).compare("mock data") == 0) {
+        std::cout << " >>JOIN\n";
+        return NULL;
+    }
 
     // Error check
     if(!shares) return NULL;

@@ -2,7 +2,9 @@ CXX=g++
 DEBUG=-g
 CFLAGS= -Wall $(DEBUG) -std=c++11
 
-INCLUDES=-I./include
+INCLUDES=-I./include -I$(HOME)/sw/include
+LIBS=-L$(HOME)/sw/lib -lntl -lgmp -lgf2x -lm
+
 
 # this is to avoid files, directories and targets with the same name
 # let 'make' assume that is all up to date
@@ -32,11 +34,11 @@ TST_OUT=stest
 
 # compile all
 all:
-	$(CXX) $(CFLAGS) $(INCLUDES) -o $(OUT) $(SRC)
+	$(CXX) $(CFLAGS) $(INCLUDES) -o $(OUT) $(SRC) $(LIBS)
 
 # compile test
 test:
-	$(CXX) $(CFLAGS) $(INCLUDES) -o $(TST_OUT) $(TST_SRC)
+	$(CXX) $(CFLAGS) $(INCLUDES) -o $(TST_OUT) $(TST_SRC) $(LIBS)
 
 clean:
 	rm $(OUT) $(TST_OUT)

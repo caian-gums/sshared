@@ -5,6 +5,13 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     // TODO(test): split operation
     if (data.compare("mock data") == 0) {
         std::cout << " >>SPLIT\n";
+        NTL::ZZ a = NTL::conv<NTL::ZZ>(3);
+        NTL::ZZ b;
+        NTL::ZZ string = NTL::conv<NTL::ZZ>("5");
+        b = 3;
+        std::cout << "a >> " << a << "\n";
+        std::cout << "b >> " << b << "\n";
+        std::cout << "sting >> " << string << "\n";
         return NULL;
     }
 

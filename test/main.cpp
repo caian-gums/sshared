@@ -18,6 +18,6 @@ int main(int argc, char* argv[]) {
     printf("\n");
     printf("[test] list... \n");
     test_list();
-    
+
     return 0;
 }

@@ -6,6 +6,10 @@ Controller::Controller() {
     this->p = 29;
 }
 
+Controller::~Controller() {
+    if(!dealer) delete dealer;
+}
+
 bool Controller::filter_message(char* mes[], int size) {
 
     // initial check
@@ -42,8 +46,10 @@ bool Controller::filter_message(char* mes[], int size) {
     // do split/join operation
     if(sj.compare("split") == 0) {
         this->split();
-    } else {
+    } else if (sj.compare("join") == 0) {
         this->join();
+    } else {
+        return false;
     }
 
     return true;
@@ -60,6 +66,9 @@ void Controller::split() {
         unsigned int d = 2;
         // ------
         dealer->split(data, d, t);
+
+        // cleanup
+        delete dealer;
     }
 }
 
@@ -74,6 +83,9 @@ void Controller::join() {
         // ------
         dealer->join(l);
         l->remove();
+
+        // cleanup
+        delete dealer;
     }
 }
 

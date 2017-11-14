@@ -11,7 +11,7 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         b = 3;
         std::cout << "a >> " << a << "\n";
         std::cout << "b >> " << b << "\n";
-        std::cout << "sting >> " << string << "\n";
+        std::cout << "string >> " << string << "\n";
         return NULL;
     }
 

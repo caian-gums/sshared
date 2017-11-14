@@ -18,7 +18,7 @@ class Controller {
 public:
 
     Controller();
-    ~Controller() { }
+    ~Controller();
 
     /* filter_message filter the recieved message from input
      * program.

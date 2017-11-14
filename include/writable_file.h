@@ -7,7 +7,6 @@ class WritableFile : public File {
 public:
 
     WritableFile(std::string path) : File(path) { }
-    ~WritableFile();
 
     /* write method writes a file with the given path on object creation
      *

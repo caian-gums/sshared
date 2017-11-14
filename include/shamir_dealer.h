@@ -8,7 +8,6 @@ class ShamirDealer : public Dealer {
 public:
 
     ShamirDealer(unsigned int prime) : p(prime) { }
-    ~ShamirDealer() { }
 
     /* split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.

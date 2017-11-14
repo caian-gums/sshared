@@ -23,5 +23,8 @@ void test_controller(int argc, char* argv[]) {
     buf = con->print_information();
     printf("%s\n", buf.c_str());
     */
+
+    // cleanup
+    delete con;
 }
 

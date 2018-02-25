@@ -39,9 +39,11 @@ bool Controller::filter_message(char* mes[], int size) {
     }
 
     // set values on Controller
-    for(int i = 2; i < nsize; i += 2)
-        if(!this->set_value(mes[i], mes[i+1]))
+    for(int i = 2; i < nsize; i += 2) {
+        if(!this->set_value(mes[i], mes[i+1])) {
             return false;
+        }
+    }
 
     // do split/join operation
     if(sj.compare("split") == 0) {
@@ -128,17 +130,29 @@ bool Controller::set_value(char* arg, char* value) {
 
 void Controller::set_t(char* value) {
     std::string v(value);
-    this->t = std::stoi(v);
+    try {
+        this->t = std::stoi(v);
+    } catch (const std::invalid_argument& ia) {
+         std::cerr << "[Controller] Invalid argument on t definition\n";
+    }
 }
 
 void Controller::set_n(char* value) {
     std::string v(value);
-    this->n = std::stoi(v);
+    try {
+        this->n = std::stoi(v);
+    } catch (const std::invalid_argument& ia) {
+         std::cerr << "[Controller] Invalid argument on n definition\n";
+    }
 }
 
 void Controller::set_p(char* value) {
     std::string v(value);
-    this->p = std::stoi(v);
+    try {
+        this->p = std::stoi(v);
+    } catch (const std::invalid_argument& ia) {
+         std::cerr << "[Controller] Invalid argument on p definition\n";
+    }
 }
 
 void Controller::set_file_path(char* value) {

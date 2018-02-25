@@ -48,7 +48,7 @@ private:
     /* set_value is a general setting value to filer_message.
      * 
      *  @param  art         argument name
-     *  @param  value       argument valeu
+     *  @param  value       argument value
      *
      *  @return true if all goes ok, false on error.
      */

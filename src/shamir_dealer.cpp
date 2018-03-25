@@ -2,19 +2,6 @@
 
 List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
-    // TODO(test): split operation
-    if (data.compare("mock data") == 0) {
-        std::cout << " >>SPLIT\n";
-        NTL::ZZ a = NTL::conv<NTL::ZZ>(3);
-        NTL::ZZ b;
-        NTL::ZZ string = NTL::conv<NTL::ZZ>("5");
-        b = 3;
-        std::cout << "a >> " << a << "\n";
-        std::cout << "b >> " << b << "\n";
-        std::cout << "string >> " << string << "\n";
-        return NULL;
-    }
-
     // Error check
     if(t == 0) {
         std::cerr << "[Dealer] t value invalid";
@@ -29,15 +16,33 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         return NULL;
     }
 
-    // TODO: implement the split
-
     List<std::string>* rv = new List<std::string>();
 
+    // Init ZZ_p
+    NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
+    NTL::ZZ_p::init(prime);
+    // std::cout << prime << "\n";
+
+    // TODO: Generate random polynomial
+    NTL::ZZ_pX pol;
     
-    for(unsigned int i = 0; i < n; i++) {
-        if(i < t) rv->add(data);
-        else rv->add("fill");
+    long d = std::stol(data);
+    NTL::SetCoeff(pol, 0, d);
+    for(long i = 1; i < 5; i++) {
+        NTL::SetCoeff(pol, i, i*i);
     }
+    // std::cout << pol << "\n";
+
+    // TODO: Generate random values to eval()
+    for(unsigned int i = 0; i < 5; i++) {
+        NTL::ZZ_p val;
+        val = NTL::conv<NTL::ZZ_p>(i);
+        // std::cout << "pol[" << val << "] = ";
+        // std::cout << NTL::eval(pol, val) << "\n";
+        std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
+        rv->add(eval);
+    }
+
     return rv;
 }
 

@@ -6,11 +6,11 @@ void test_split_shamir_dealer() {
     printf("  split test...");
 
     std::string buf;
-    unsigned int p = 5;
+    unsigned int p = 11;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "fake data";
+    std::string data = "2";
     List<std::string>* sl;
     unsigned int t = 3;
     unsigned int n = 5;

@@ -1,7 +1,8 @@
 #ifndef SHAMIRDEALER_H
 #define SHAMIRDEALER_H
 
-#include <NTL/ZZ.h>
+#include <NTL/ZZ_p.h>
+#include <NTL/ZZ_pX.h>
 #include "dealer.h"
 
 class ShamirDealer : public Dealer {

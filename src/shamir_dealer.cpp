@@ -21,6 +21,7 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     // Init ZZ_p
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
     NTL::ZZ_p::init(prime);
+    // discover the prime
     // std::cout << prime << "\n";
 
     // TODO: Generate random polynomial
@@ -28,15 +29,17 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     
     long d = std::stol(data);
     NTL::SetCoeff(pol, 0, d);
-    for(long i = 1; i < 5; i++) {
+    for(long i = 1; i < 4; i++) {
         NTL::SetCoeff(pol, i, i*i);
     }
-    // std::cout << pol << "\n";
+    // discover the polynomial
+    // std::cout << "\n" << pol << "\n";
 
     // TODO: Generate random values to eval()
     for(unsigned int i = 0; i < 5; i++) {
         NTL::ZZ_p val;
         val = NTL::conv<NTL::ZZ_p>(i);
+        // print eval values
         // std::cout << "pol[" << val << "] = ";
         // std::cout << NTL::eval(pol, val) << "\n";
         std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
@@ -48,18 +51,53 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
 
 std::string ShamirDealer::join(List<std::string>* shares) {
 
-    // TODO(test): join operation
-    if (!shares && shares->get(0).compare("mock data") == 0) {
-        std::cout << " >>JOIN\n";
+    // Error check
+    if(!shares) {
+        std::cerr << "[Dealer] no shares passed";
         return NULL;
     }
 
-    // Error check
-    if(!shares) return NULL;
+    // Init ZZ_p
+    NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
+    NTL::ZZ_p::init(prime);
+    // discover the prime
+    // std::cout << prime << "\n";
 
-    // TODO: implement the join
+ 
+    // Create the vectors of coefficients and index
+    NTL::Vec<NTL::ZZ_p> coef;
+    NTL::Vec<NTL::ZZ_p> ind;
 
-    return shares->get(0);
+    // Sets length of vectors
+    coef.SetLength((long) shares->len());
+    ind.SetLength((long) shares->len());
+
+    // TODO: Create a better logic to this matching part
+    for(long i = 0; i < 4; i++) {
+        coef[i] = NTL::conv<NTL::ZZ_p>(std::stol(shares->get(i)));
+        ind[i] = NTL::conv<NTL::ZZ_p>((long) (i+1));
+    }
+    // std::cout << "\n";
+    // std::cout << "ind = " << ind << "\n";
+    // std::cout << "coef = " << coef << "\n";
+    // std::cout << "\n";
+
+    // Create the polynomial
+    NTL::ZZ_pX pol;
+
+    // Interpolate to find the polynomial
+    pol = NTL::interpolate(ind, coef);
+    // discover the polynomial
+    // std::cout << "\n" << pol << "\n";
+
+    NTL::ZZ_p zero_index;
+    zero_index = NTL::conv<NTL::ZZ_p>((long) 0);
+    std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, zero_index)));
+    // print eval value
+    // std::cout << "pol[" << zero_index << "] = ";
+    // std::cout << NTL::eval(pol, val) << "\n";
+
+    return eval;
     
 }
 

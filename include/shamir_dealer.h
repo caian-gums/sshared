@@ -1,13 +1,14 @@
 #ifndef SHAMIRDEALER_H
 #define SHAMIRDEALER_H
 
+#include <NTL/ZZ_p.h>
+#include <NTL/ZZ_pX.h>
 #include "dealer.h"
 
 class ShamirDealer : public Dealer {
 public:
 
     ShamirDealer(unsigned int prime) : p(prime) { }
-    ~ShamirDealer() { }
 
     /* split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.

@@ -18,7 +18,7 @@ class Controller {
 public:
 
     Controller();
-    ~Controller() { }
+    ~Controller();
 
     /* filter_message filter the recieved message from input
      * program.
@@ -39,13 +39,16 @@ private:
     int t;
     int p;
     std::string file_path;
-    std::string dealer;
+    // Dealer type
+    std::string dealer_type;
+    // Dealer Object
+    Dealer* dealer;
 
     // methods
     /* set_value is a general setting value to filer_message.
      * 
      *  @param  art         argument name
-     *  @param  value       argument valeu
+     *  @param  value       argument value
      *
      *  @return true if all goes ok, false on error.
      */
@@ -56,7 +59,7 @@ private:
     void set_n(char* value);
     void set_p(char* value);
     void set_file_path(char* value);
-    void set_dealer(char* value);
+    void set_dealer_type(char* value);
 
     // print help information
     void print_help();

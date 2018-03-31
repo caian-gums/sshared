@@ -78,7 +78,7 @@ void test_list() {
     printf("Ok\n");
     
     // TEST: len test
-    printf("  len test..");
+    printf("  len test...");
 
     // int test
     if(il->len() != 3) check = false;
@@ -101,7 +101,7 @@ void test_list() {
     printf("Ok\n");
 
     // TEST: remove test
-    printf("  remove test..");
+    printf("  remove test...");
 
     // int test
     il->remove();

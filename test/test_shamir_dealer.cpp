@@ -46,7 +46,6 @@ void test_join_shamir_dealer() {
 
     printf("  join test...");
 
-    std::string buf;
     unsigned int p = 11;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
@@ -74,6 +73,7 @@ void test_join_shamir_dealer() {
 
     // cleanup
     if(!!sl) delete sl;
+    if(!!sd) delete sd;
 
     if(!check) {
         printf("Error on join\n");

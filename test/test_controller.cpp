@@ -14,6 +14,8 @@ void test_controller(int argc, char* argv[]) {
     check = con->filter_message(argv, argc);
     if(!check) {
         printf("Error on filter message\n");
+        // cleanup
+        delete con;
         return;
     }
 
@@ -23,5 +25,8 @@ void test_controller(int argc, char* argv[]) {
     buf = con->print_information();
     printf("%s\n", buf.c_str());
     */
+
+    // cleanup
+    delete con;
 }
 

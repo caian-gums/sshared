@@ -4,10 +4,10 @@
 // main test function
 int main(int argc, char* argv[]) {
 
-    printf("[test] controller... \n");
-    test_controller(argc, argv);
+    // printf("[test] controller... \n");
+    // test_controller(argc, argv);
 
-    printf("\n");
+    // printf("\n");
     printf("[test] shamir dealer... \n");
     test_shamir_dealer();
 
@@ -18,6 +18,6 @@ int main(int argc, char* argv[]) {
     printf("\n");
     printf("[test] list... \n");
     test_list();
-    
+
     return 0;
 }

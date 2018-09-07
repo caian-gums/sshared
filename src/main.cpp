@@ -23,6 +23,9 @@ int main(int argc, char* argv[]) {
     buf = sd->print_information();
     printf("%s\n", buf.c_str());
 
+    // cleanup
+    delete con;
+    delete sd;
 
     return 0;
 }

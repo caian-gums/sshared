@@ -8,7 +8,7 @@ class File {
 public:
 
     File(std::string path) : fp(path) { }
-    ~File();
+    ~File() { }
 
     /* open method open a file with the given path on object creation
      *

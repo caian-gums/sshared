@@ -46,7 +46,7 @@ public:
 private:
     // attributes
     // inside list
-    std::vector<T> list;
+    std::vector<T>* list;
 
 };
 

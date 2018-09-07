@@ -21,8 +21,11 @@ void test_list() {
     if(il->get(0) != el0) check = false;
     if(il->get(1) != el1) check = false;
     if(il->get(2) != el2) check = false;
+
     if(!check) {
         printf("Error on int\n");
+        delete il;
+        delete sl;
         return;
     }
 
@@ -36,8 +39,11 @@ void test_list() {
     if(sl->get(0).compare(se0) != 0) check = false;
     if(sl->get(1).compare(se1) != 0) check = false;
     if(sl->get(2).compare(se2) != 0) check = false;
+
     if(!check) {
         printf("Error on string\n");
+        delete il;
+        delete sl;
         return;
     }
     
@@ -50,8 +56,11 @@ void test_list() {
     if(il->get(0) != el0) check = false;
     if(il->get(1) != el1) check = false;
     if(il->get(2) != el2) check = false;
+
     if(!check) {
         printf("Error on int\n");
+        delete il;
+        delete sl;
         return;
     }
 
@@ -61,18 +70,22 @@ void test_list() {
     if(sl->get(2).compare(se2) != 0) check = false;
     if(!check) {
         printf("Error on string\n");
+        delete il;
+        delete sl;
         return;
     }
 
     printf("Ok\n");
     
     // TEST: len test
-    printf("  len test..");
+    printf("  len test...");
 
     // int test
     if(il->len() != 3) check = false;
     if(!check) {
         printf("Error on int\n");
+        delete il;
+        delete sl;
         return;
     }
 
@@ -80,13 +93,15 @@ void test_list() {
     if(sl->len() != 3) check = false;
     if(!check) {
         printf("Error on string\n");
+        delete il;
+        delete sl;
         return;
     }
     
     printf("Ok\n");
 
     // TEST: remove test
-    printf("  remove test..");
+    printf("  remove test...");
 
     // int test
     il->remove();
@@ -95,6 +110,8 @@ void test_list() {
     if(il->len() != 0) check = false;
     if(!check) {
         printf("Error on int\n");
+        delete il;
+        delete sl;
         return;
     }
 
@@ -105,10 +122,16 @@ void test_list() {
     if(sl->len() != 0) check = false;
     if(!check) {
         printf("Error on string\n");
+        delete il;
+        delete sl;
         return;
     }
     
     printf("Ok\n");
+
+    // cleanup
+    delete il;
+    delete sl;
 
     return;
 }

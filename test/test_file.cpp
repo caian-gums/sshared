@@ -13,12 +13,14 @@ void test_file() {
     std::string wfbuf = "Test file.\n1 2 3 test";
     wf->write(wfbuf);
     wf->close();
+    delete wf;
 
     // readable file
     ReadableFile* rf = new ReadableFile(fp);
     rf->open();
     std::string rfbuf = rf->read();
     rf->close();
+    delete rf;
 
     /* See the files:
     printf("wfbuf: '%s'\nrfbuf: '%s'\n", wfbuf.c_str(), rfbuf.c_str());

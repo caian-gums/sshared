@@ -10,6 +10,8 @@
 class Dealer {
 public:
 
+    virtual ~Dealer() { }
+
     /* [VIRTUAL] split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.
      * 

@@ -2,7 +2,6 @@
 #define MAIN_TEST_H
 
 #include <iostream>
-#include <stdio.h>
 #include <string>
 
 // Controller include

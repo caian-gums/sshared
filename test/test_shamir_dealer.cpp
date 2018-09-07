@@ -3,7 +3,7 @@
 
 void test_split_shamir_dealer() {
 
-    printf("  split test...");
+    std::cout << "  split test...";
 
     std::string buf;
     unsigned int p = 11;
@@ -21,12 +21,12 @@ void test_split_shamir_dealer() {
 
     // print list
     /*
-    printf("\nsl: ");
+    std::cout << "\nsl: ";
     if(!!sl) {
         for(unsigned int i = 0; i < sl->len(); i++) {
-            printf("\nsl[%d] = '%s'", i, sl->get(i).c_str());
+            std::cout << "\nsl[" <<  i << "] = '" << sl->get(i) << "'";
         }
-        printf("\n");
+        std::cout << std::endl;
     }
     */
  
@@ -35,16 +35,16 @@ void test_split_shamir_dealer() {
     if(!!sd) delete sd;
 
     if(!check) {
-        printf("Error on split\n");
+        std::cout << "Error on split" << std::endl;
         return;
     }
  
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 }
 
 void test_join_shamir_dealer() {
 
-    printf("  join test...");
+    std::cout << "  join test...";
 
     unsigned int p = 11;
     ShamirDealer* sd = new ShamirDealer(p);
@@ -67,7 +67,7 @@ void test_join_shamir_dealer() {
     // read rv
     /*
     if(!rv.empty()) {
-        printf("\nrv = %s\n", rv);
+        std::cout << "\nrv = " << rv << std::endl;
     }
     */
 
@@ -76,11 +76,11 @@ void test_join_shamir_dealer() {
     if(!!sd) delete sd;
 
     if(!check) {
-        printf("Error on join\n");
+        std::cout << "Error on join" << std::endl;
         return;
     }
  
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 }
 
 /* shamir_dealer tests */

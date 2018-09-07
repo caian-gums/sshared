@@ -2,7 +2,6 @@
 #define CONTROLLER_H
 
 #include <string>
-#include <stdio.h>
 
 // Util
 #include "list.h"

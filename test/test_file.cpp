@@ -23,19 +23,20 @@ void test_file() {
     delete rf;
 
     /* See the files:
-    printf("wfbuf: '%s'\nrfbuf: '%s'\n", wfbuf.c_str(), rfbuf.c_str());
+    std::cout << "wfbuf: '" << wfbuf << "'" << std::endl;
+    std::cout << rfbuf: '" << rfbuf << "'" << std::endl;
     */
 
     bool check = true;
     // TEST: compare test
-    printf("  compare files test...");
+    std::cout << "  compare files test...";
     if(rfbuf.compare(wfbuf) == 0) check = true;
     else check = false;
     if(!check) {
-        printf("Error on compare\n");
+        std::cout << "Error on compare" << std::endl;
         return;
     }
 
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
     
 }

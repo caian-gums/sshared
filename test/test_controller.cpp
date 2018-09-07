@@ -10,20 +10,20 @@ void test_controller(int argc, char* argv[]) {
 
     bool check = true;
     // TEST: filter_message
-    printf("  filter_message...");
+    std::cout << "  filter_message...";
     check = con->filter_message(argv, argc);
     if(!check) {
-        printf("Error on filter message\n");
+        std::cout << "Error on filter message" << std::endl;
         // cleanup
         delete con;
         return;
     }
 
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 
     /* output test
     buf = con->print_information();
-    printf("%s\n", buf.c_str());
+    std::cout << "buf" << std::endl;
     */
 
     // cleanup

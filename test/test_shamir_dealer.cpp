@@ -6,11 +6,11 @@ void test_split_shamir_dealer() {
     std::cout << "  split test...";
 
     std::string buf;
-    unsigned int p = 103;
+    unsigned int p = 104471;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "a";
+    std::string data = "ab";
     List<std::string>* sl;
     unsigned int t = 3;
     unsigned int n = 5;
@@ -20,7 +20,7 @@ void test_split_shamir_dealer() {
     if(sl->len() != n) check = false;
 
     // print list
-    /*
+    
     std::cout << "\nsl: ";
     if(!!sl) {
         for(unsigned int i = 0; i < sl->len(); i++) {
@@ -28,7 +28,7 @@ void test_split_shamir_dealer() {
         }
         std::cout << std::endl;
     }
-    */
+    
  
     // cleanup
     if(!!sl) delete sl;

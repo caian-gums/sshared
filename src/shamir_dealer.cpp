@@ -27,8 +27,10 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     // TODO: Generate random polynomial
     NTL::ZZ_pX pol;
     
-    long d = static_cast<long>(*(data.c_str()));
-    // std::cout << "d=" << d  << std::endl;
+    const char * data_char = data.c_str();
+    long d = static_cast<long>((data_char[0] << 8));
+    d += static_cast<long>(data_char[1]);
+    // std::cout << "d=" << std::hex << d << std::endl;
     NTL::SetCoeff(pol, 0, d);
     for(long i = 1; i < 4; i++) {
         NTL::SetCoeff(pol, i, i*i);

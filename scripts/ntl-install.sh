@@ -14,9 +14,9 @@
 # INSTALL DIR
 INSTALL_DIR='ntl_install'
 # VERSIONS
-NTL='ntl-10.3.0'
+NTL='ntl-11.3.0'
 GMP='gmp-6.1.2'
-GF2X='gf2x-1.1'
+GF2X='gf2x-1.2'
 
 # Setup
 mkdir ${INSTALL_DIR}
@@ -29,7 +29,7 @@ wget http://www.shoup.net/ntl/${NTL}.tar.gz
 # GMP
 wget https://gmplib.org/download/gmp/${GMP}.tar.bz2
 # gf2x
-wget http://gforge.inria.fr/frs/download.php/file/30873/${GF2X}.tar.gz
+wget http://gforge.inria.fr/frs/download.php/file/36934/${GF2X}.tar.gz
 echo 'Download done!'
 # < \DOWNLOAD >
 

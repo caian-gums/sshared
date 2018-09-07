@@ -6,11 +6,11 @@ void test_split_shamir_dealer() {
     std::cout << "  split test...";
 
     std::string buf;
-    unsigned int p = 11;
+    unsigned int p = 103;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "2";
+    std::string data = "a";
     List<std::string>* sl;
     unsigned int t = 3;
     unsigned int n = 5;
@@ -46,19 +46,19 @@ void test_join_shamir_dealer() {
 
     std::cout << "  join test...";
 
-    unsigned int p = 11;
+    unsigned int p = 103;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "2";
+    std::string data = "a";
     List<std::string>* sl = new List<std::string>();
     // Match the known values from split
     // the secret must not be known
-    // sl->add("2");
-    sl->add("5");
-    sl->add("4");
-    sl->add("9");
+    // sl->add("a");
     sl->add("8");
+    sl->add("84");
+    sl->add("70");
+    sl->add("20");
     std::string rv = sd->join(sl);
 
     if(rv.empty()) check = false;

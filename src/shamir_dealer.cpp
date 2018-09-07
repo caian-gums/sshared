@@ -22,18 +22,19 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
     NTL::ZZ_p::init(prime);
     // discover the prime
-    // std::cout << prime << "\n";
+    // std::cout << "Prime=" << prime << std::endl;
 
     // TODO: Generate random polynomial
     NTL::ZZ_pX pol;
     
-    long d = std::stol(data);
+    long d = static_cast<long>(*(data.c_str()));
+    // std::cout << "d=" << d  << std::endl;
     NTL::SetCoeff(pol, 0, d);
     for(long i = 1; i < 4; i++) {
         NTL::SetCoeff(pol, i, i*i);
     }
     // discover the polynomial
-    // std::cout << "\n" << pol << "\n";
+    std::cout << "\nPolynomial=" << pol << std::endl;
 
     // TODO: Generate random values to eval()
     for(unsigned int i = 0; i < 5; i++) {
@@ -41,7 +42,7 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         val = NTL::conv<NTL::ZZ_p>(i);
         // print eval values
         // std::cout << "pol[" << val << "] = ";
-        // std::cout << NTL::eval(pol, val) << "\n";
+        // std::cout << NTL::eval(pol, val) << std::endl;
         std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
         rv->add(eval);
     }
@@ -88,14 +89,15 @@ std::string ShamirDealer::join(List<std::string>* shares) {
     // Interpolate to find the polynomial
     pol = NTL::interpolate(ind, coef);
     // discover the polynomial
-    // std::cout << "\n" << pol << "\n";
+    std::cout << "\n" << pol << "\n";
 
     NTL::ZZ_p zero_index;
     zero_index = NTL::conv<NTL::ZZ_p>((long) 0);
-    std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, zero_index)));
+    int result = NTL::conv<int>(NTL::eval(pol, zero_index));
+    char result_char = static_cast<char>(result);
+    std::string eval(1, result_char);
     // print eval value
-    // std::cout << "pol[" << zero_index << "] = ";
-    // std::cout << NTL::eval(pol, val) << "\n";
+    // std::cout << "eval=" << eval << std::endl;
 
     return eval;
     

@@ -63,7 +63,7 @@ void Controller::split() {
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
         dealer = new ShamirDealer(this->p);
         // MOCK data
-        std::string data = "mock data";
+        std::string data = "m";
         unsigned int t = 2;
         unsigned int d = 2;
         // ------
@@ -79,9 +79,9 @@ void Controller::join() {
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
         dealer = new ShamirDealer(this->p);
         // MOCK data
-        List<std::string>* l = new List<std::string>();
-        std::string s = "mock data";
-        l->add(s);
+        ShareList* l = new ShareList();
+        ShareTuple st("0", "m");
+        l->add(st);
         // ------
         dealer->join(l);
         l->remove();

@@ -24,12 +24,11 @@ public:
 
     /* join method try reconstruct the secret with the given parts
      * 
-     *  @param  shares      parts of the secret as a
-     *                      List<std::string>
+     *  @param  shares      parts of the secret as a ShareList
      *
      *  @return std::string of the join operation or NULL on fail
      */
-    std::string join(List<std::string>* shares);
+    std::string join(ShareList* shares);
 
     // test method
     std::string print_information();

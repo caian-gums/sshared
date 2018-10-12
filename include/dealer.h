@@ -13,8 +13,11 @@ typedef std::string ss_X;
 // Value of q(x) based on x
 typedef std::string ss_Y;
 
+// Tuple definition
+typedef Tuple<ss_X, ss_Y> ShareTuple;
+
 // List of shares
-typedef List<Tuple<ss_Y, ss_X>> ShareList ;
+typedef List<ShareTuple> ShareList;
 
 class Dealer {
 public:
@@ -35,12 +38,11 @@ public:
 
     /* [VIRTUAL] join method try reconstruct the secret with the given parts
      * 
-     *  @param  shares      parts of the secret as a
-     *                      List<std::string>
+     *  @param  shares      parts of the secret as a ShareList
      *
      *  @return std::string of the join operation or NULL on fail
      */
-    virtual std::string join(List<std::string>* shares) = 0;
+    virtual std::string join(ShareList* shares) = 0;
 
 };
  

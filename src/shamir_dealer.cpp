@@ -47,7 +47,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
         // std::cout << NTL::eval(pol, val) << std::endl;
         ss_Y eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
         ss_X index = std::to_string(i);
-        Tuple<ss_Y, ss_X> tuple(eval, index);
+        Tuple<ss_Y, ss_X> tuple(index, eval);
 
         rv->add(tuple);
     }
@@ -55,7 +55,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     return rv;
 }
 
-std::string ShamirDealer::join(List<std::string>* shares) {
+std::string ShamirDealer::join(ShareList* shares) {
 
     // Error check
     if(!shares) {
@@ -79,9 +79,9 @@ std::string ShamirDealer::join(List<std::string>* shares) {
     ind.SetLength((long) shares->len());
 
     // TODO: Create a better logic to this matching part
-    for(long i = 0; i < 4; i++) {
-        coef[i] = NTL::conv<NTL::ZZ_p>(std::stol(shares->get(i)));
-        ind[i] = NTL::conv<NTL::ZZ_p>((long) (i+1));
+    for(long i = 0; i < shares->len(); i++) {
+        ind[i] = NTL::conv<NTL::ZZ_p>(std::stoul(shares->get(i).first()));
+        coef[i] = NTL::conv<NTL::ZZ_p>(std::stoul(shares->get(i).second()));
     }
     // std::cout << "\n";
     // std::cout << "ind = " << ind << "\n";

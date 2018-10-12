@@ -8,7 +8,7 @@
 class ShamirDealer : public Dealer {
 public:
 
-    ShamirDealer(unsigned int prime) : p(prime) { }
+    ShamirDealer(unsigned long prime) : p(prime) { }
 
     /* split method splits a message or data in 'n' parts with a 
      * minimum 't' parts.
@@ -17,10 +17,10 @@ public:
      *                      reconstruct the secret
      *  @param  n           number of parts to be splited
      *
-     *  @return List<std::string> object with all the parts or
+     *  @return ShareList object with all the parts or
      *  NULL on fail
      */
-    List<std::string>* split(std::string data, unsigned int t, unsigned int n);
+    ShareList* split(std::string data, unsigned int t, unsigned int n);
 
     /* join method try reconstruct the secret with the given parts
      * 
@@ -36,7 +36,7 @@ public:
 
 private:
     // attributes
-    unsigned int p;
+    unsigned long p;
 
 };
 #endif

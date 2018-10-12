@@ -3,9 +3,18 @@
 
 #include <string>
 #include "list.h"
+#include "tuple.h"
 
 // Used in error log
 #include <iostream>
+
+// Value x of q(x)
+typedef std::string ss_X;
+// Value of q(x) based on x
+typedef std::string ss_Y;
+
+// List of shares
+typedef List<Tuple<ss_Y, ss_X>> ShareList ;
 
 class Dealer {
 public:
@@ -19,10 +28,10 @@ public:
      *                      reconstruct the secret
      *  @param  n           number of parts to be splited
      *
-     *  @return List<std::string> object with all the parts or
+     *  @return ShareList object with all the parts or
      *  NULL on fail
      */
-    virtual List<std::string>* split(std::string data, unsigned int t, unsigned int n) = 0;
+    virtual ShareList* split(std::string data, unsigned int t, unsigned int n) = 0;
 
     /* [VIRTUAL] join method try reconstruct the secret with the given parts
      * 

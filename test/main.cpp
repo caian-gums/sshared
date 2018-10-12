@@ -11,13 +11,13 @@ int main(int argc, char* argv[]) {
     std::cout << "[test] shamir dealer... " << std::endl;
     test_shamir_dealer();
 
-    std::cout << std::endl;
-    std::cout << "[test] file... " << std::endl;
-    test_file();
+    // std::cout << std::endl;
+    // std::cout << "[test] file... " << std::endl;
+    // test_file();
 
-    std::cout << std::endl;
-    std::cout << "[test] list... " << std::endl;
-    test_list();
+    // // std::cout << std::endl;
+    // // std::cout << "[test] list... " << std::endl;
+    // // test_list();
 
     return 0;
 }

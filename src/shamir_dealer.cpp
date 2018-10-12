@@ -1,6 +1,6 @@
 #include "shamir_dealer.h"
 
-List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
+ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
     // Error check
     if(t == 0) {
@@ -16,7 +16,7 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         return NULL;
     }
 
-    List<std::string>* rv = new List<std::string>();
+    ShareList* rv = new ShareList();
 
     // Init ZZ_p
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
@@ -28,11 +28,11 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
     NTL::ZZ_pX pol;
     
     const char * data_char = data.c_str();
-    long d = static_cast<long>((data_char[0] << 8));
-    d += static_cast<long>(data_char[1]);
+    std::cout << "ShamirDealer::split - data_char='" << data_char << "'" << std::endl;
+    unsigned long d = static_cast<unsigned long>(data_char[0]);
     // std::cout << "d=" << std::hex << d << std::endl;
     NTL::SetCoeff(pol, 0, d);
-    for(long i = 1; i < 4; i++) {
+    for(unsigned long i = 1; i < 4; i++) {
         NTL::SetCoeff(pol, i, i*i);
     }
     // discover the polynomial
@@ -45,8 +45,11 @@ List<std::string>* ShamirDealer::split(std::string data, unsigned int t, unsigne
         // print eval values
         // std::cout << "pol[" << val << "] = ";
         // std::cout << NTL::eval(pol, val) << std::endl;
-        std::string eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
-        rv->add(eval);
+        ss_Y eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
+        ss_X index = std::to_string(i);
+        Tuple<ss_Y, ss_X> tuple(eval, index);
+
+        rv->add(tuple);
     }
 
     return rv;
@@ -91,7 +94,7 @@ std::string ShamirDealer::join(List<std::string>* shares) {
     // Interpolate to find the polynomial
     pol = NTL::interpolate(ind, coef);
     // discover the polynomial
-    std::cout << "\n" << pol << "\n";
+    std::cout << std::endl << pol << std::endl;
 
     NTL::ZZ_p zero_index;
     zero_index = NTL::conv<NTL::ZZ_p>((long) 0);

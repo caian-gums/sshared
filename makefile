@@ -41,4 +41,4 @@ test:
 	$(CXX) $(CFLAGS) $(INCLUDES) -o $(TST_OUT) $(TST_SRC) $(LIBS)
 
 clean:
-	rm $(OUT) $(TST_OUT)
+	rm $(OUT) $(TST_OUT) *.share*

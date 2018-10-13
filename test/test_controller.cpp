@@ -2,7 +2,21 @@
 #include "main_test.h"
 
 static const int argc_error = 1;
-static char* argv_error[argc_error];
+static const char* argv_error[argc_error] = {""};
+
+static const int argc_split = 10;
+static const char* argv_split[argc_split] = {
+    "sshare",
+    "split",
+    "-i",
+    "sample.txt",
+    "-t",
+    "3",
+    "-n",
+    "5",
+    "-p",
+    "104471"
+};
 
 void test_filter_message() {
 
@@ -20,8 +34,8 @@ void test_filter_message() {
         std::cout << "Ok" << std::endl;
     }
 
-    std::cout << "    correct call...";
-    check = con->filter_message(argv_error, argc_error);
+    std::cout << "    split call...";
+    check = con->filter_message(argv_split, argc_split);
     if(!check) {
         std::cout << "Error" << std::endl;
     } else {

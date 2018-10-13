@@ -9,9 +9,15 @@
 // Dealers
 #include "shamir_dealer.h"
 
+// Files
+#include "readable_file.h"
+#include "writable_file.h"
 
 // Used in error log
 #include <iostream>
+
+// List of Evaluated Shares as TupleLists
+typedef List<TupleList*> EvaluetedShares;
  
 class Controller {
 public:
@@ -27,7 +33,7 @@ public:
      *
      *  @return true on success or false on fail
      */
-    bool filter_message(char* mes[], int size);
+    bool filter_message(const char* mes[], int size);
 
     friend std::ostream & operator<<(std::ostream & os, Controller c) {
         os << "Controller information: "
@@ -49,6 +55,9 @@ private:
     std::string dealer_type;
     // Dealer Object
     Dealer* dealer;
+    // EvaluetedShares of Shares
+    EvaluetedShares* es;
+
 
     // methods
     /* set_value is a general setting value to filer_message.
@@ -58,14 +67,14 @@ private:
      *
      *  @return true if all goes ok, false on error.
      */
-    bool set_value(char* arg, char* value);
+    bool set_value(const char* arg, const char* value);
 
     // inside set's
-    void set_t(char* value);
-    void set_n(char* value);
-    void set_p(char* value);
-    void set_file_path(char* value);
-    void set_dealer_type(char* value);
+    void set_t(const char* value);
+    void set_n(const char* value);
+    void set_p(const char* value);
+    void set_file_path(const char* value);
+    void set_dealer_type(const char* value);
 
     // print help information
     void print_help();

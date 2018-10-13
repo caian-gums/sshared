@@ -4,7 +4,7 @@ Controller::~Controller() {
     if(!dealer) delete dealer;
 }
 
-bool Controller::filter_message(char* mes[], int size) {
+bool Controller::filter_message(const char* mes[], int size) {
 
     // initial check
     if(size < 2) {
@@ -53,15 +53,44 @@ bool Controller::filter_message(char* mes[], int size) {
 }
 
 void Controller::split() {
-    // TODO: suport others dealers
+    // TODO: support others dealers
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
         dealer = new ShamirDealer(this->_p);
-        // MOCK data
-        std::string data = "m";
-        unsigned int t = 2;
-        unsigned int d = 2;
-        // ------
-        dealer->split(data, d, t);
+
+        // open file and read
+        ReadableFile* in_file = new ReadableFile(this->_file_path);
+        in_file->open();
+        std::string data = in_file->read();
+        in_file->close();
+        delete in_file;
+
+        // create the list of EvaluatedShares
+        this->es = new EvaluetedShares();
+        TupleList* tl;
+
+        // step 1 - split each byte
+        for(unsigned int i = 0; i < data.length(); i++) {
+            tl = dealer->split(data.substr(i, 1), this->_t, this->_n);
+            this->es->add(tl);
+        }
+
+        // step 2 - save to files 
+        // open a file to each Share
+        for(unsigned int i = 0; i < this->es->len(); i++) {
+            std::string share_file_name = this->_file_path + ".share" + std::to_string(i);
+            WritableFile* out_file = new WritableFile(share_file_name);
+            out_file->open();
+            // write the Shares on each file
+            for(unsigned int j = 0; j < this->es->len(); j++) {
+                tl = this->es->get(j);
+                ShareTuple st = tl->get(i);
+                std::string line = st.first() + "," + st.second() + "\n";
+                out_file->write(line);
+            }
+            // close file
+            out_file->close();
+            delete out_file;
+        }
 
         // cleanup
         delete dealer;
@@ -73,7 +102,7 @@ void Controller::join() {
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
         dealer = new ShamirDealer(this->_p);
         // MOCK data
-        ShareList* l = new ShareList();
+        TupleList* l = new TupleList();
         ShareTuple st("0", "m");
         l->add(st);
         // ------
@@ -85,7 +114,7 @@ void Controller::join() {
     }
 }
 
-bool Controller::set_value(char* arg, char* value) {
+bool Controller::set_value(const char* arg, const char* value) {
 
     if(arg[0] != '-') {
         // error on arg definition
@@ -109,6 +138,11 @@ bool Controller::set_value(char* arg, char* value) {
             this->set_t(value);
             break;
         }
+        // p value
+        case 'p': {
+            this->set_p(value);
+            break;
+        }
         // dealer type value
         case 'd': {
             this->set_dealer_type(value);
@@ -122,38 +156,38 @@ bool Controller::set_value(char* arg, char* value) {
     return true;
 }
 
-void Controller::set_t(char* value) {
+void Controller::set_t(const char* value) {
     std::string v(value);
     try {
-        this->_t = std::stoi(v);
+        this->_t = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on t definition\n";
     }
 }
 
-void Controller::set_n(char* value) {
+void Controller::set_n(const char* value) {
     std::string v(value);
     try {
-        this->_n = std::stoi(v);
+        this->_n = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on n definition\n";
     }
 }
 
-void Controller::set_p(char* value) {
+void Controller::set_p(const char* value) {
     std::string v(value);
     try {
-        this->_p = std::stoi(v);
+        this->_p = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on p definition\n";
     }
 }
 
-void Controller::set_file_path(char* value) {
+void Controller::set_file_path(const char* value) {
     this->_file_path = value;
 }
 
-void Controller::set_dealer_type(char* value) {
+void Controller::set_dealer_type(const char* value) {
     this->dealer_type = value;
 }
 

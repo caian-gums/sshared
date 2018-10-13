@@ -16,10 +16,10 @@ public:
     S first() { return _first; }
     R second() { return _second; }
 
-    friend std::ostream & operator<<(std::ostream & os, Tuple t) {
+    friend std::ostream & operator<<(std::ostream & os, Tuple t)  {
         os << t.first() << "," << t.second();
         return os;
-    }
+    } 
 };
 
 #endif

@@ -15,7 +15,6 @@ void test_split_shamir_dealer() {
 
     std::cout << "  split test...";
 
-    std::string buf;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
@@ -28,13 +27,13 @@ void test_split_shamir_dealer() {
     if(sl->len() != n) check = false;
 
     // print list
-    std::cout << "\nsl: ";
-    if(!!sl) {
-        for(unsigned int i = 0; i < sl->len(); i++) {
-            std::cout << "\nsl[" <<  i << "] = '" << sl->get(i) << "'";
-        }
-        std::cout << std::endl;
-    }
+    // std::cout << "\nsl: ";
+    // if(!!sl) {
+    //     for(unsigned int i = 0; i < sl->len(); i++) {
+    //         std::cout << "\nsl[" <<  i << "] = '" << sl->get(i) << "'";
+    //     }
+    //     std::cout << std::endl;
+    // }
     
  
     // cleanup
@@ -42,7 +41,7 @@ void test_split_shamir_dealer() {
     if(!!sd) delete sd;
 
     if(!check) {
-        std::cout << "Error on split" << std::endl;
+        std::cout << "Error" << std::endl;
         return;
     }
  
@@ -81,7 +80,7 @@ void test_join_shamir_dealer() {
     if(!!sd) delete sd;
 
     if(!check) {
-        std::cout << "Error on join" << std::endl;
+        std::cout << "Error" << std::endl;
         return;
     }
  

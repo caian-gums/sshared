@@ -1,11 +1,5 @@
 #include "controller.h"
 
-Controller::Controller() {
-    this->t = 0;
-    this->n = 0;
-    this->p = 29;
-}
-
 Controller::~Controller() {
     if(!dealer) delete dealer;
 }
@@ -61,7 +55,7 @@ bool Controller::filter_message(char* mes[], int size) {
 void Controller::split() {
     // TODO: suport others dealers
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
-        dealer = new ShamirDealer(this->p);
+        dealer = new ShamirDealer(this->_p);
         // MOCK data
         std::string data = "m";
         unsigned int t = 2;
@@ -77,7 +71,7 @@ void Controller::split() {
 void Controller::join() {
     // TODO: suport others dealers
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
-        dealer = new ShamirDealer(this->p);
+        dealer = new ShamirDealer(this->_p);
         // MOCK data
         ShareList* l = new ShareList();
         ShareTuple st("0", "m");
@@ -131,7 +125,7 @@ bool Controller::set_value(char* arg, char* value) {
 void Controller::set_t(char* value) {
     std::string v(value);
     try {
-        this->t = std::stoi(v);
+        this->_t = std::stoi(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on t definition\n";
     }
@@ -140,7 +134,7 @@ void Controller::set_t(char* value) {
 void Controller::set_n(char* value) {
     std::string v(value);
     try {
-        this->n = std::stoi(v);
+        this->_n = std::stoi(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on n definition\n";
     }
@@ -149,14 +143,14 @@ void Controller::set_n(char* value) {
 void Controller::set_p(char* value) {
     std::string v(value);
     try {
-        this->p = std::stoi(v);
+        this->_p = std::stoi(v);
     } catch (const std::invalid_argument& ia) {
          std::cerr << "[Controller] Invalid argument on p definition\n";
     }
 }
 
 void Controller::set_file_path(char* value) {
-    this->file_path = value;
+    this->_file_path = value;
 }
 
 void Controller::set_dealer_type(char* value) {
@@ -177,19 +171,4 @@ void Controller::print_help() {
     std::cout << "      - d: dealer type(shamir default)\n";
     std::cout << "      - p: prime number used(29**CHANGE THIS** default)\n";
     std::cout << "      - h: help information\n";
-}
-
-std::string Controller::print_information() {
-    std::string rv = "Controller information: ";
-    rv += "\n  t = " + std::to_string(this->t);
-    rv += "\n  n = " + std::to_string(this->n);
-    rv += "\n  p = " + std::to_string(this->p);
-    rv += "\n  file_path = ";
-    if(!this->file_path.empty()) rv += this->file_path;
-    else rv += "<No file provided>";
-    rv += "\n  dealer type = ";
-    if(!this->dealer_type.empty()) rv += this->dealer_type;
-    else rv += "shamir";
-
-    return rv;
 }

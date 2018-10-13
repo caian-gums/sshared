@@ -10,17 +10,14 @@
 
 int main(int argc, char* argv[]) {
 
-    std::string buf;
     Controller* con = new Controller();
     con->filter_message(argv, argc);
 
-    buf = con->print_information();
-    std::cout << buf.c_str() << std::endl;
+    std::cout << con << std::endl;
 
     unsigned int p = 5;
     ShamirDealer* sd = new ShamirDealer(p);
-    buf = sd->print_information();
-    std::cout << buf.c_str() << std::endl;
+    std::cout << sd << std::endl;
 
     // cleanup
     delete con;

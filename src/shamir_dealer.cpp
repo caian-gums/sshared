@@ -28,7 +28,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     NTL::ZZ_pX pol;
     
     const char * data_char = data.c_str();
-    std::cout << "ShamirDealer::split - data_char='" << data_char << "'" << std::endl;
+    // std::cout << "ShamirDealer::split - data_char='" << data_char << "'" << std::endl;
     unsigned long d = static_cast<unsigned long>(data_char[0]);
     // std::cout << "d=" << std::hex << d << std::endl;
     NTL::SetCoeff(pol, 0, d);
@@ -36,7 +36,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
         NTL::SetCoeff(pol, i, i*i);
     }
     // discover the polynomial
-    std::cout << "\nPolynomial=" << pol << std::endl;
+    // std::cout << "\nPolynomial=" << pol << std::endl;
 
     // TODO: Generate random values to eval()
     for(unsigned int i = 0; i < 5; i++) {
@@ -94,7 +94,7 @@ std::string ShamirDealer::join(ShareList* shares) {
     // Interpolate to find the polynomial
     pol = NTL::interpolate(ind, coef);
     // discover the polynomial
-    std::cout << std::endl << pol << std::endl;
+    // std::cout << std::endl << pol << std::endl;
 
     NTL::ZZ_p zero_index;
     zero_index = NTL::conv<NTL::ZZ_p>((long) 0);
@@ -106,11 +106,4 @@ std::string ShamirDealer::join(ShareList* shares) {
 
     return eval;
     
-}
-
-std::string ShamirDealer::print_information() {
-    std::string rv = "ShamirDealer information: ";
-    rv += "\n  p = " + std::to_string(this->p);
-
-    return rv;
 }

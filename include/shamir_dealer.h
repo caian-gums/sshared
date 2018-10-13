@@ -30,8 +30,11 @@ public:
      */
     std::string join(ShareList* shares);
 
-    // test method
-    std::string print_information();
+    friend std::ostream & operator<<(std::ostream & os, ShamirDealer sd) {
+        os << "ShamirDealer information: "
+        << "\n  p = " << std::to_string(sd.p);
+        return os;
+    }
 
 private:
     // attributes

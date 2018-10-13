@@ -16,7 +16,7 @@
 class Controller {
 public:
 
-    Controller();
+    Controller() {}
     ~Controller();
 
     /* filter_message filter the recieved message from input
@@ -29,15 +29,22 @@ public:
      */
     bool filter_message(char* mes[], int size);
 
-    // test method
-    std::string print_information();
+    friend std::ostream & operator<<(std::ostream & os, Controller c) {
+        os << "Controller information: "
+        << "\n  t = " << std::to_string(c._t)
+        << "\n  n = " << std::to_string(c._n)
+        << "\n  p = " << std::to_string(c._p)
+        << "\n  _file_path = " << ((!c._file_path.empty()) ? c._file_path : "<No file provided>")
+        << "\n  dealer type = " << ((!c.dealer_type.empty()) ? c.dealer_type : "shamir");
+        return os;
+    }
 
 private:
     // attributes
-    int n;
-    int t;
-    int p;
-    std::string file_path;
+    unsigned long _n = 0;
+    unsigned long _t = 0;
+    unsigned long _p = 0;
+    std::string _file_path;
     // Dealer type
     std::string dealer_type;
     // Dealer Object

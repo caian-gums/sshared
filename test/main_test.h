@@ -18,7 +18,7 @@
 #include "list.h"
 
 /* controller tests */
-void test_controller(int argc, char* argv[]);
+void test_controller();
 
 /* list tests */
 void test_list();

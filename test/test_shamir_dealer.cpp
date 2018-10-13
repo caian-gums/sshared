@@ -18,26 +18,26 @@ void test_split_shamir_dealer() {
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    ShareList* sl;
+    TupleList* tl;
     unsigned int t = 3;
     unsigned int n = 5;
-    sl = sd->split(data, t, n);
+    tl = sd->split(data, t, n);
 
-    if(!sl) check = false;
-    if(sl->len() != n) check = false;
+    if(!tl) check = false;
+    if(tl->len() != n) check = false;
 
     // print list
-    // std::cout << "\nsl: ";
-    // if(!!sl) {
-    //     for(unsigned int i = 0; i < sl->len(); i++) {
-    //         std::cout << "\nsl[" <<  i << "] = '" << sl->get(i) << "'";
+    // std::cout << "\ntl: ";
+    // if(!!tl) {
+    //     for(unsigned int i = 0; i < tl->len(); i++) {
+    //         std::cout << "\ntl[" <<  i << "] = '" << tl->get(i) << "'";
     //     }
     //     std::cout << std::endl;
     // }
     
  
     // cleanup
-    if(!!sl) delete sl;
+    if(!!tl) delete tl;
     if(!!sd) delete sd;
 
     if(!check) {
@@ -55,15 +55,15 @@ void test_join_shamir_dealer() {
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    ShareList* sl = new ShareList();
+    TupleList* tl = new TupleList();
     // Match the known values from split
     // the secret must not be known
-    // sl->add(share_0); // 'a' = 97
-    sl->add(share_1);
-    sl->add(share_2);
-    sl->add(share_3);
-    sl->add(share_4);
-    std::string rv = sd->join(sl);
+    // tl->add(share_0); // 'a' = 97
+    tl->add(share_1);
+    tl->add(share_2);
+    tl->add(share_3);
+    tl->add(share_4);
+    std::string rv = sd->join(tl);
 
     if(rv.empty()) check = false;
     if(rv.compare(data) != 0) check = false;
@@ -76,7 +76,7 @@ void test_join_shamir_dealer() {
     */
 
     // cleanup
-    if(!!sl) delete sl;
+    if(!!tl) delete tl;
     if(!!sd) delete sd;
 
     if(!check) {

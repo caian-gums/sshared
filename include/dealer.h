@@ -17,7 +17,7 @@ typedef std::string ss_Y;
 typedef Tuple<ss_X, ss_Y> ShareTuple;
 
 // List of shares
-typedef List<ShareTuple> ShareList;
+typedef List<ShareTuple> TupleList;
 
 class Dealer {
 public:
@@ -31,18 +31,18 @@ public:
      *                      reconstruct the secret
      *  @param  n           number of parts to be splited
      *
-     *  @return ShareList object with all the parts or
+     *  @return TupleList object with all the parts or
      *  NULL on fail
      */
-    virtual ShareList* split(std::string data, unsigned int t, unsigned int n) = 0;
+    virtual TupleList* split(std::string data, unsigned int t, unsigned int n) = 0;
 
     /* [VIRTUAL] join method try reconstruct the secret with the given parts
      * 
-     *  @param  shares      parts of the secret as a ShareList
+     *  @param  shares      parts of the secret as a TupleList
      *
      *  @return std::string of the join operation or NULL on fail
      */
-    virtual std::string join(ShareList* shares) = 0;
+    virtual std::string join(TupleList* shares) = 0;
 
 };
  

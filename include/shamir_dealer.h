@@ -17,18 +17,18 @@ public:
      *                      reconstruct the secret
      *  @param  n           number of parts to be splited
      *
-     *  @return ShareList object with all the parts or
+     *  @return TupleList object with all the parts or
      *  NULL on fail
      */
-    ShareList* split(std::string data, unsigned int t, unsigned int n);
+    TupleList* split(std::string data, unsigned int t, unsigned int n);
 
     /* join method try reconstruct the secret with the given parts
      * 
-     *  @param  shares      parts of the secret as a ShareList
+     *  @param  shares      parts of the secret as a TupleList
      *
      *  @return std::string of the join operation or NULL on fail
      */
-    std::string join(ShareList* shares);
+    std::string join(TupleList* shares);
 
     friend std::ostream & operator<<(std::ostream & os, ShamirDealer sd) {
         os << "ShamirDealer information: "

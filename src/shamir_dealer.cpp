@@ -1,6 +1,6 @@
 #include "shamir_dealer.h"
 
-ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
+TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
     // Error check
     if(t == 0) {
@@ -16,7 +16,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
         return NULL;
     }
 
-    ShareList* rv = new ShareList();
+    TupleList* rv = new TupleList();
 
     // Init ZZ_p
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
@@ -55,7 +55,7 @@ ShareList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     return rv;
 }
 
-std::string ShamirDealer::join(ShareList* shares) {
+std::string ShamirDealer::join(TupleList* shares) {
 
     // Error check
     if(!shares) {

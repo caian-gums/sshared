@@ -9,13 +9,27 @@ static const char* argv_split[argc_split] = {
     "sshare",
     "split",
     "-i",
-    "sample.txt",
+    "sample2.txt",
     "-t",
     "3",
     "-n",
     "5",
     "-p",
     "104471"
+};
+
+static const int argc_join = 10;
+static const char* argv_join[argc_join] = {
+    "sshare",
+    "join",
+    "-p",
+    "104471",
+    "-l",
+    "sample2.txt.share0",
+    "sample2.txt.share1",
+    "sample2.txt.share2",
+    "sample2.txt.share3",
+    "sample2.txt.share4"
 };
 
 void test_filter_message() {
@@ -33,6 +47,8 @@ void test_filter_message() {
     } else {
         std::cout << "Ok" << std::endl;
     }
+    delete con;
+    con = new Controller();
 
     std::cout << "    split call...";
     check = con->filter_message(argv_split, argc_split);
@@ -41,9 +57,18 @@ void test_filter_message() {
     } else {
         std::cout << "Ok" << std::endl;
     }
+    delete con;
+    con = new Controller();
+
+    std::cout << "    join call...";
+    check = con->filter_message(argv_join, argc_join);
+    if(!check) {
+        std::cout << "Error" << std::endl;
+    } else {
+        std::cout << "Ok" << std::endl;
+    }
 
     // std::cout << con << std::endl;
-
     // cleanup
     delete con;
 }

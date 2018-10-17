@@ -32,14 +32,14 @@ TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     unsigned long d = static_cast<unsigned long>(data_char[0]);
     // std::cout << "d=" << std::hex << d << std::endl;
     NTL::SetCoeff(pol, 0, d);
-    for(unsigned long i = 1; i < 4; i++) {
+    for(unsigned long i = 1; i < t; i++) {
         NTL::SetCoeff(pol, i, i*i);
     }
     // discover the polynomial
     // std::cout << "\nPolynomial=" << pol << std::endl;
 
     // TODO: Generate random values to eval()
-    for(unsigned int i = 0; i < 5; i++) {
+    for(unsigned int i = 0; i < n; i++) {
         NTL::ZZ_p val;
         val = NTL::conv<NTL::ZZ_p>(i);
         // print eval values

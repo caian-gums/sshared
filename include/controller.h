@@ -2,6 +2,7 @@
 #define CONTROLLER_H
 
 #include <string>
+#include <sstream>
 
 // Util
 #include "list.h"
@@ -18,6 +19,7 @@
 
 // List of Evaluated Shares as TupleLists
 typedef List<TupleList*> EvaluetedShares;
+typedef List<std::string> StringList;
  
 class Controller {
 public:
@@ -51,6 +53,7 @@ private:
     unsigned long _t = 0;
     unsigned long _p = 0;
     std::string _file_path;
+    StringList* _list_file_path;
     // Dealer type
     std::string dealer_type;
     // Dealer Object
@@ -76,8 +79,13 @@ private:
     void set_file_path(const char* value);
     void set_dealer_type(const char* value);
 
+    bool set_list_filepath(const char** arg, int index, int size);
+
     // print help information
     void print_help();
+
+    // util function to split a string
+    StringList* split_string(std::string data, char delimiter);
 
     // split/join functions
     void split();

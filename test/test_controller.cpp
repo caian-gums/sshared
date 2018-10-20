@@ -18,12 +18,14 @@ static const char* argv_split[argc_split] = {
     "104471"
 };
 
-static const int argc_join = 10;
+static const int argc_join = 12;
 static const char* argv_join[argc_join] = {
     "sshare",
     "join",
     "-p",
     "104471",
+    "-o",
+    "out_sample.txt",
     "-l",
     "sample2.txt.share0",
     "sample2.txt.share1",

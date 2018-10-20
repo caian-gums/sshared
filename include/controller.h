@@ -53,6 +53,7 @@ private:
     unsigned long _t = 0;
     unsigned long _p = 0;
     std::string _file_path;
+    std::string _out_file_path;
     StringList* _list_file_path;
     // Dealer type
     std::string dealer_type;
@@ -77,6 +78,7 @@ private:
     void set_n(const char* value);
     void set_p(const char* value);
     void set_file_path(const char* value);
+    void set_out_file_path(const char* value);
     void set_dealer_type(const char* value);
 
     bool set_list_filepath(const char** arg, int index, int size);
@@ -86,6 +88,10 @@ private:
 
     // util function to split a string
     StringList* split_string(std::string data, char delimiter);
+    // util function to write some string content into a file
+    void write(std::string content, std::string to);
+    // util function to read and conver to string from a file
+    std::string read(std::string from);
 
     // split/join functions
     void split();

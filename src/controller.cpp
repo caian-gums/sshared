@@ -59,47 +59,57 @@ bool Controller::filter_message(const char* mes[], int size) {
 
 }
 
+std::string Controller::read(std::string from) {
+    ReadableFile* in_file = new ReadableFile(from);
+    in_file->open();
+    std::string data = in_file->read();
+    in_file->close();
+    delete in_file;
+    return data;
+}
+
+void Controller::write(std::string content, std::string to) {
+    WritableFile* out_file = new WritableFile(to);
+    out_file->open();
+    out_file->write(content);
+    out_file->close();
+    delete out_file;
+}
+
 void Controller::split() {
     // TODO: support others dealers
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
+        // open file and read content
+        std::string data = this->read(this->_file_path);
+
         this->dealer = new ShamirDealer(this->_p);
-
-        // open file and read
-        ReadableFile* in_file = new ReadableFile(this->_file_path);
-        in_file->open();
-        std::string data = in_file->read();
-        in_file->close();
-        delete in_file;
-
-        // create the list of EvaluatedShares
         this->es = new EvaluetedShares();
         TupleList* tl;
 
         // step 1 - split each byte
-        for(unsigned int i = 0; i < data.length(); i++) {
+        for(unsigned int i = 0; i < data.length() - 1; i++) {
             tl = this->dealer->split(data.substr(i, 1), this->_t, this->_n);
             this->es->add(tl);
         }
 
         // step 2 - save to files 
-        // open a file to each Share
         for(unsigned int i = 0; i < this->_n; i++) {
-            std::string share_file_name = this->_file_path + ".share" + std::to_string(i);
-            WritableFile* out_file = new WritableFile(share_file_name);
-            out_file->open();
+            std::string out_share = "";
             // write the Shares on each file
             for(unsigned int j = 0; j < this->es->len(); j++) {
                 tl = this->es->get(j);
                 ShareTuple st = tl->get(i);
-                std::string line = st.first() + "," + st.second() + "\n";
-                out_file->write(line);
+                out_share += st.first() + "," + st.second() + "\n";
             }
             // close file
-            out_file->close();
-            delete out_file;
+
+            std::string share_file_name = this->_file_path + ".share" + std::to_string(i);
+            this->write(out_share, share_file_name);
+            // open a file to each share
         }
 
         // cleanup
+        delete this->es;
         delete this->dealer;
     }
 }
@@ -115,25 +125,20 @@ StringList* Controller::split_string(std::string data, char delimiter) {
 }
 
 void Controller::join() {
-    // TODO: suport others dealers
     if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
-        this->dealer = new ShamirDealer(this->_p);
 
         this->es = new EvaluetedShares();
 
         // step 1 - open files and get the shares
         for(unsigned int i = 0; i < this->_list_file_path->len(); i++) {
-            std::string share_file_name = this->_list_file_path->get(i);
-            ReadableFile* in_file = new ReadableFile(share_file_name);
-            in_file->open();
-
             // read the shares
-            std::string data = in_file->read();
+            std::string data = this->read(this->_list_file_path->get(i));
+
             StringList* lstring = this->split_string(data, '\n');
             
-            // read the Shares from each file
             for(unsigned int j = 0; j < lstring->len(); j++) {
                 TupleList* tl;
+                // check for tuples on es
                 if(this->es->len() == 0 || j >= this->es->len()) {
                     tl = new TupleList();
                     this->es->add(tl);
@@ -147,22 +152,22 @@ void Controller::join() {
                 ShareTuple st(x, y);
                 tl->add(st);
             }
-            // close file
-            in_file->close();
-            delete in_file;
         }
 
         // step 2 - join the shares
-        // TODO
-        TupleList* l = new TupleList();
-        ShareTuple st("0", "m");
-        l->add(st);
-        // ------
-        this->dealer->join(l);
-        l->remove();
+        this->dealer = new ShamirDealer(this->_p);
+        std::string out = "";
+
+        for(unsigned int i = 0; i < this->es->len(); i++) {
+            TupleList* tl = this->es->get(i);
+            out += this->dealer->join(tl);
+        }
+
+        this->write(out, this->_out_file_path);
 
         // cleanup
         delete this->dealer;
+        delete this->es;
     }
 }
 
@@ -178,6 +183,11 @@ bool Controller::set_value(const char* arg, const char* value) {
         // input file path
         case 'i': {
             this->set_file_path(value);
+            break;
+        }
+        // output file path
+        case 'o': {
+            this->set_out_file_path(value);
             break;
         }
         // n value
@@ -239,6 +249,10 @@ void Controller::set_file_path(const char* value) {
     this->_file_path = value;
 }
 
+void Controller::set_out_file_path(const char* value) {
+    this->_out_file_path = value;
+}
+
 bool Controller::set_list_filepath(const char** value, int index, int size) {
     this->_list_file_path = new StringList();
     for(int i = index+1; i < index+size; i++) {
@@ -263,8 +277,10 @@ void Controller::print_help() {
     std::cout << "  operation: the operation that will be performed\n";
     std::cout << "      - split\n";
     std::cout << "      - join\n";
-    std::cout << "  arguments: each argument must be followed by respective value\n";
-    std::cout << "      - i: input file\n";
+    std::cout << "  arguments: each argument must be followed by respective values\n";
+    std::cout << "      - i: input file(for split)\n";
+    std::cout << "      - l: list of input files(in case of join)\n";
+    std::cout << "      - o: output file name(in case of join) -- must be the LAST argument with values\n";
     std::cout << "      - t: minimum shares\n";
     std::cout << "      - n: number of shares\n";
     std::cout << "      - d: dealer type(shamir default)\n";

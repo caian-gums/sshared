@@ -1,6 +1,9 @@
 # sshared
 
-A C++ implementation of Secret Shared.
+A C++ implementation of Secret Sharing.
+
+Supported Implementations:
+- Shamir
 
 # Development Requirements
 

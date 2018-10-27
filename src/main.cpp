@@ -8,20 +8,12 @@
 #include "writable_file.h"
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
 
     Controller* con = new Controller();
     con->filter_message(argv, argc);
 
-    std::cout << con << std::endl;
-
-    unsigned int p = 5;
-    ShamirDealer* sd = new ShamirDealer(p);
-    std::cout << sd << std::endl;
-
     // cleanup
     delete con;
-    delete sd;
-
     return 0;
 }

@@ -25,6 +25,8 @@ class Controller {
 public:
 
     Controller() {
+        this->_n = 0;
+        this->_t = 0;
         this->_p = 0;
         this->_dealer_type = "shamir";
     }
@@ -41,9 +43,9 @@ public:
     bool filter_message(const char* mes[], int size);
 
 private:
-    unsigned long _n = 0;
-    unsigned long _t = 0;
-    unsigned long _p = 0;
+    unsigned long _n;
+    unsigned long _t;
+    unsigned long _p;
     std::string _file_path;
     std::string _out_file_path;
     StringList* _list_file_path;

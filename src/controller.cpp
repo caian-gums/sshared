@@ -285,8 +285,8 @@ void Controller::print_help() {
     std::cout << "      - join" << std::endl;
     std::cout << "  arguments: each argument must be followed by respective values" << std::endl;
     std::cout << "      - i: input file(for split)" << std::endl;
-    std::cout << "      - l: list of input files(in case of join)" << std::endl;
-    std::cout << "      - o: output file name(in case of join) -- must be the LAST argument with values" << std::endl;
+    std::cout << "      - l: list of input files(in case of join) -- must be the LAST argument with values" << std::endl;
+    std::cout << "      - o: output file name(in case of join)" << std::endl;
     std::cout << "      - t: minimum shares" << std::endl;
     std::cout << "      - n: number of shares" << std::endl;
     std::cout << "      - d: dealer type(shamir default)" << std::endl;

@@ -22,18 +22,13 @@ void test_file() {
     rf->close();
     delete rf;
 
-    /* See the files:
-    std::cout << "wfbuf: '" << wfbuf << "'" << std::endl;
-    std::cout << rfbuf: '" << rfbuf << "'" << std::endl;
-    */
-
     bool check = true;
     // TEST: compare test
     std::cout << "  compare files test...";
     if(rfbuf.compare(wfbuf) == 0) check = true;
     else check = false;
     if(!check) {
-        std::cout << "Error on compare" << std::endl;
+        std::cout << "\nError on compare" << std::endl;
         return;
     }
 

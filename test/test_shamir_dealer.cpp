@@ -25,17 +25,7 @@ void test_split_shamir_dealer() {
 
     if(!tl) check = false;
     if(tl->len() != n) check = false;
-
-    // print list
-    // std::cout << "\ntl: ";
-    // if(!!tl) {
-    //     for(unsigned int i = 0; i < tl->len(); i++) {
-    //         std::cout << "\ntl[" <<  i << "] = '" << tl->get(i) << "'";
-    //     }
-    //     std::cout << std::endl;
-    // }
     
- 
     // cleanup
     if(!!tl) delete tl;
     if(!!sd) delete sd;
@@ -67,13 +57,6 @@ void test_join_shamir_dealer() {
 
     if(rv.empty()) check = false;
     if(rv.compare(data) != 0) check = false;
-
-    // read rv
-    /*
-    if(!rv.empty()) {
-        std::cout << "\nrv = " << rv << std::endl;
-    }
-    */
 
     // cleanup
     if(!!tl) delete tl;

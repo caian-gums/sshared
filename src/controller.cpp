@@ -1,14 +1,14 @@
 #include "controller.h"
 
 Controller::~Controller() {
-    if(!dealer) delete dealer;
+    if(!_dealer) delete _dealer;
 }
 
 bool Controller::filter_message(const char* mes[], int size) {
 
     // initial check
     if(size < 2) {
-        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        std::cerr << "[sshared] Error: Number of arguments incorrect. Use -h (help)" << std::endl;
         return false;
     }
 
@@ -21,14 +21,14 @@ bool Controller::filter_message(const char* mes[], int size) {
     // check if split or join was passed
     std::string sj = mes[1];
     if(sj.compare("split") != 0 && sj.compare("join") != 0) {
-        std::cerr << "[Controller] Pass the operation (split or join). Use -h (help)\n";
+        std::cerr << "[sshared] Error: Pass the operation (split or join). Use -h (help)" << std::endl;
         return false;
     }
     int nsize = size - 1;
 
     // check for number of arguments
     if(nsize % 2 == 0 || nsize < 2) {
-        std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+        std::cerr << "[sshared] Error:  Number of arguments incorrect. Use -h (help)" << std::endl;
         return false;
     }
 
@@ -36,7 +36,7 @@ bool Controller::filter_message(const char* mes[], int size) {
     for(int i = 2; i < nsize; i += 2) {
         if(mes[i][1] == 'l') {
             if(!this->set_list_filepath(mes, i, size - i)) {
-                std::cerr << "[Controller] Number of arguments incorrect. Use -h (help)\n";
+                std::cerr << "[sshared] Error: Number of arguments incorrect. Use -h (help)" << std::endl;
                 return false;
             }
             break;
@@ -77,41 +77,43 @@ void Controller::write(std::string content, std::string to) {
 }
 
 void Controller::split() {
-    // TODO: support others dealers
-    if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
-        // open file and read content
+    if(this->_dealer_type.empty()) {
+        std::cerr << "[sshared] Error: No Dealer Type defined" << std::endl;
+    }
+    if(this->_dealer_type.compare("shamir") == 0) {
+        // read file
         std::string data = this->read(this->_file_path);
 
-        this->dealer = new ShamirDealer(this->_p);
-        this->es = new EvaluetedShares();
+        this->_dealer = new ShamirDealer(this->_p);
+        this->_es = new EvaluetedShares();
         TupleList* tl;
 
         // step 1 - split each byte
         for(unsigned int i = 0; i < data.length() - 1; i++) {
-            tl = this->dealer->split(data.substr(i, 1), this->_t, this->_n);
-            this->es->add(tl);
+            tl = this->_dealer->split(data.substr(i, 1), this->_t, this->_n);
+            this->_es->add(tl);
         }
 
         // step 2 - save to files 
         for(unsigned int i = 0; i < this->_n; i++) {
             std::string out_share = "";
             // write the Shares on each file
-            for(unsigned int j = 0; j < this->es->len(); j++) {
-                tl = this->es->get(j);
+            for(unsigned int j = 0; j < this->_es->len(); j++) {
+                tl = this->_es->get(j);
                 ShareTuple st = tl->get(i);
                 out_share += st.first() + "," + st.second() + "\n";
             }
-            // close file
 
             std::string share_file_name = this->_file_path + ".share" + std::to_string(i);
             this->write(out_share, share_file_name);
-            // open a file to each share
         }
 
         // cleanup
-        delete this->es;
-        delete this->dealer;
+        delete this->_es;
+        delete this->_dealer;
+        return;
     }
+    std::cerr << "[sshared] Error: Dealer Type not supported" << std::endl;
 }
 
 StringList* Controller::split_string(std::string data, char delimiter) {
@@ -125,9 +127,12 @@ StringList* Controller::split_string(std::string data, char delimiter) {
 }
 
 void Controller::join() {
-    if(this->dealer_type.empty() || this->dealer_type.compare("shamir") == 0) {
+    if(this->_dealer_type.empty()) {
+        std::cerr << "[sshared] Error: No Dealer Type defined" << std::endl;
+    }
+    if(this->_dealer_type.compare("shamir") == 0) {
 
-        this->es = new EvaluetedShares();
+        this->_es = new EvaluetedShares();
 
         // step 1 - open files and get the shares
         for(unsigned int i = 0; i < this->_list_file_path->len(); i++) {
@@ -139,11 +144,11 @@ void Controller::join() {
             for(unsigned int j = 0; j < lstring->len(); j++) {
                 TupleList* tl;
                 // check for tuples on es
-                if(this->es->len() == 0 || j >= this->es->len()) {
+                if(this->_es->len() == 0 || j >= this->_es->len()) {
                     tl = new TupleList();
-                    this->es->add(tl);
+                    this->_es->add(tl);
                 }
-                tl = this->es->get(j);
+                tl = this->_es->get(j);
                 // build the tuples
                 std::string line = lstring->get(j);
                 StringList* elements = this->split_string(line, ',');
@@ -155,27 +160,28 @@ void Controller::join() {
         }
 
         // step 2 - join the shares
-        this->dealer = new ShamirDealer(this->_p);
+        this->_dealer = new ShamirDealer(this->_p);
         std::string out = "";
 
-        for(unsigned int i = 0; i < this->es->len(); i++) {
-            TupleList* tl = this->es->get(i);
-            out += this->dealer->join(tl);
+        for(unsigned int i = 0; i < this->_es->len(); i++) {
+            TupleList* tl = this->_es->get(i);
+            out += this->_dealer->join(tl);
         }
 
         this->write(out, this->_out_file_path);
 
         // cleanup
-        delete this->dealer;
-        delete this->es;
+        delete this->_dealer;
+        delete this->_es;
+        return;
     }
+    std::cerr << "[sshared] Error: Dealer Type not supported" << std::endl;
 }
 
 bool Controller::set_value(const char* arg, const char* value) {
 
     if(arg[0] != '-') {
-        // error on arg definition
-        std::cerr << "[Controller] Invalid argument passed: " << arg << "\n";
+        std::cerr << "[ssshared] Error: Invalid argument passed: " << arg << std::endl;
         return false;
     }
 
@@ -205,13 +211,13 @@ bool Controller::set_value(const char* arg, const char* value) {
             this->set_p(value);
             break;
         }
-        // dealer type value
+        // _dealer type value
         case 'd': {
             this->set_dealer_type(value);
             break;
         }
         default:
-            std::cerr << "[Controller] Invalid option: " << arg << "\n";
+            std::cerr << "[sshared] Error: Invalid option: " << arg << std::endl;
             return false;
             break;
     }
@@ -223,7 +229,7 @@ void Controller::set_t(const char* value) {
     try {
         this->_t = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
-         std::cerr << "[Controller] Invalid argument on t definition\n";
+         std::cerr << "[sshared] Error: Invalid argument on t definition" << std::endl;
     }
 }
 
@@ -232,7 +238,7 @@ void Controller::set_n(const char* value) {
     try {
         this->_n = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
-         std::cerr << "[Controller] Invalid argument on n definition\n";
+         std::cerr << "[sshared] Error: Invalid argument on n definition" << std::endl;
     }
 }
 
@@ -241,7 +247,7 @@ void Controller::set_p(const char* value) {
     try {
         this->_p = std::stoul(v);
     } catch (const std::invalid_argument& ia) {
-         std::cerr << "[Controller] Invalid argument on p definition\n";
+         std::cerr << "[sshared] Error: Invalid argument on p definition" << std::endl;
     }
 }
 
@@ -267,23 +273,23 @@ bool Controller::set_list_filepath(const char** value, int index, int size) {
 }
 
 void Controller::set_dealer_type(const char* value) {
-    this->dealer_type = value;
+    this->_dealer_type = value;
 }
 
 void Controller::print_help() {
-    std::cout << "sshared lib help information: \n";
-    std::cout << "Usage:\n";
-    std::cout << "./sshared (<operation> <args>)|(-h)\n";
-    std::cout << "  operation: the operation that will be performed\n";
-    std::cout << "      - split\n";
-    std::cout << "      - join\n";
-    std::cout << "  arguments: each argument must be followed by respective values\n";
-    std::cout << "      - i: input file(for split)\n";
-    std::cout << "      - l: list of input files(in case of join)\n";
-    std::cout << "      - o: output file name(in case of join) -- must be the LAST argument with values\n";
-    std::cout << "      - t: minimum shares\n";
-    std::cout << "      - n: number of shares\n";
-    std::cout << "      - d: dealer type(shamir default)\n";
-    std::cout << "      - p: prime number used(29**CHANGE THIS** default)\n";
-    std::cout << "      - h: help information\n";
+    std::cout << "sshared lib help information: " << std::endl;
+    std::cout << "Usage:" << std::endl;
+    std::cout << "./sshared (<operation> <args>)|(-h)" << std::endl;
+    std::cout << "  operation: the operation that will be performed" << std::endl;
+    std::cout << "      - split" << std::endl;
+    std::cout << "      - join" << std::endl;
+    std::cout << "  arguments: each argument must be followed by respective values" << std::endl;
+    std::cout << "      - i: input file(for split)" << std::endl;
+    std::cout << "      - l: list of input files(in case of join)" << std::endl;
+    std::cout << "      - o: output file name(in case of join) -- must be the LAST argument with values" << std::endl;
+    std::cout << "      - t: minimum shares" << std::endl;
+    std::cout << "      - n: number of shares" << std::endl;
+    std::cout << "      - d: dealer type(shamir default)" << std::endl;
+    std::cout << "      - p: prime number used(29**CHANGE THIS** default)" << std::endl;
+    std::cout << "      - h: help information" << std::endl;
 }

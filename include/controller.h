@@ -24,11 +24,14 @@ typedef List<std::string> StringList;
 class Controller {
 public:
 
-    Controller() {}
+    Controller() {
+        this->_p = 0;
+        this->_dealer_type = "shamir";
+    }
     ~Controller();
 
     /* filter_message filter the recieved message from input
-     * program.
+     * program
      * 
      *  @param  mes[]       list of parameters
      *  @param  size        list size
@@ -37,18 +40,7 @@ public:
      */
     bool filter_message(const char* mes[], int size);
 
-    friend std::ostream & operator<<(std::ostream & os, Controller c) {
-        os << "Controller information: "
-        << "\n  t = " << std::to_string(c._t)
-        << "\n  n = " << std::to_string(c._n)
-        << "\n  p = " << std::to_string(c._p)
-        << "\n  _file_path = " << ((!c._file_path.empty()) ? c._file_path : "<No file provided>")
-        << "\n  dealer type = " << ((!c.dealer_type.empty()) ? c.dealer_type : "shamir");
-        return os;
-    }
-
 private:
-    // attributes
     unsigned long _n = 0;
     unsigned long _t = 0;
     unsigned long _p = 0;
@@ -56,14 +48,13 @@ private:
     std::string _out_file_path;
     StringList* _list_file_path;
     // Dealer type
-    std::string dealer_type;
+    std::string _dealer_type;
     // Dealer Object
-    Dealer* dealer;
+    Dealer* _dealer;
     // EvaluetedShares of Shares
-    EvaluetedShares* es;
+    EvaluetedShares* _es;
 
 
-    // methods
     /* set_value is a general setting value to filer_message.
      * 
      *  @param  art         argument name
@@ -86,15 +77,42 @@ private:
     // print help information
     void print_help();
 
-    // util function to split a string
+    /** Split a string based on a delimiter and returns a StringList*
+     *
+     *  @param  data        std::string to be splited
+     *  @param  delimiter   character to be used as delimiter on split
+     *
+     *  @return StringList* with splited std::strings
+     */
     StringList* split_string(std::string data, char delimiter);
-    // util function to write some string content into a file
+
+    /** Write a content inside a file
+     *
+     *  @param  content     std::string to be written
+     *  @param  to          filepath of the file
+     *
+     *  @return void
+     */
     void write(std::string content, std::string to);
-    // util function to read and conver to string from a file
+
+    /** Read a file and place the content inside a std::string
+     *
+     *  @param  from        filepath of the file
+     *
+     *  @return std::string with the content of the file
+     */
     std::string read(std::string from);
 
-    // split/join functions
+    /** Split a content as std::string
+     *
+     *  @return void
+     */
     void split();
+
+    /** Join a content as std::string
+     *
+     *  @return void
+     */
     void join();
 
 };

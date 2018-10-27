@@ -30,14 +30,7 @@ public:
      */
     std::string join(TupleList* shares);
 
-    friend std::ostream & operator<<(std::ostream & os, ShamirDealer sd) {
-        os << "ShamirDealer information: "
-        << "\n  p = " << std::to_string(sd.p);
-        return os;
-    }
-
 private:
-    // attributes
     unsigned long p;
 
 };

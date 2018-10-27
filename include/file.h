@@ -23,7 +23,6 @@ public:
     void close();
 
 protected:
-    // attributes
     // file path
     std::string fp;
     // file stream

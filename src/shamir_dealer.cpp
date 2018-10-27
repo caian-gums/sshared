@@ -22,23 +22,21 @@ TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
     NTL::ZZ_p::init(prime);
 
-    // TODO: Generate random polynomial
     NTL::ZZ_pX pol;
     
     const char * data_char = data.c_str();
     unsigned long d = static_cast<unsigned long>(data_char[0]);
 
-    NTL::SetCoeff(pol, 0, d);
     for(unsigned long i = 1; i < t; i++) {
-        NTL::SetCoeff(pol, i, i*i);
+        NTL::ZZ_p coef = NTL::random_ZZ_p();
+        NTL::SetCoeff(pol, i, coef);
     }
+    NTL::SetCoeff(pol, 0, d);
 
-    // TODO: Generate random values to eval()
     for(unsigned int i = 0; i < n; i++) {
-        NTL::ZZ_p val;
-        val = NTL::conv<NTL::ZZ_p>(i);
+        NTL::ZZ_p val = NTL::random_ZZ_p();
         ss_Y eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
-        ss_X index = std::to_string(i);
+        ss_X index = std::to_string(NTL::conv<long>(val));
         Tuple<ss_Y, ss_X> tuple(index, eval);
 
         rv->add(tuple);
@@ -86,5 +84,4 @@ std::string ShamirDealer::join(TupleList* shares) {
     std::string eval(1, result_char);
 
     return eval;
-    
 }

@@ -70,7 +70,6 @@ void test_filter_message() {
         std::cout << "Ok" << std::endl;
     }
 
-    // std::cout << con << std::endl;
     // cleanup
     delete con;
 }

@@ -14,9 +14,9 @@
 # INSTALL DIR
 INSTALL_DIR='ntl_install'
 # VERSIONS
-NTL='ntl-11.3.0'
+NTL='ntl-10.3.0'
 GMP='gmp-6.1.2'
-GF2X='gf2x-1.2'
+GF2X='gf2x-1.1'
 
 # Setup
 mkdir ${INSTALL_DIR}

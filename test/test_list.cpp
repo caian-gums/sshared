@@ -9,7 +9,7 @@ void test_list() {
 
     // TEST: add test
     bool check = true;
-    printf("  add test...");
+    std::cout << "  add test...";
 
     // int test
     int el0 = 3;
@@ -21,8 +21,11 @@ void test_list() {
     if(il->get(0) != el0) check = false;
     if(il->get(1) != el1) check = false;
     if(il->get(2) != el2) check = false;
+
     if(!check) {
-        printf("Error on int\n");
+        std::cout << "Error on int" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
 
@@ -36,22 +39,28 @@ void test_list() {
     if(sl->get(0).compare(se0) != 0) check = false;
     if(sl->get(1).compare(se1) != 0) check = false;
     if(sl->get(2).compare(se2) != 0) check = false;
+
     if(!check) {
-        printf("Error on string\n");
+        std::cout << "Error on string" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
     
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 
     // TEST: get test
-    printf("  get test...");
+    std::cout << "  get test...";
 
     // int test
     if(il->get(0) != el0) check = false;
     if(il->get(1) != el1) check = false;
     if(il->get(2) != el2) check = false;
+
     if(!check) {
-        printf("Error on int\n");
+        std::cout << "Error on int" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
 
@@ -60,33 +69,39 @@ void test_list() {
     if(sl->get(1).compare(se1) != 0) check = false;
     if(sl->get(2).compare(se2) != 0) check = false;
     if(!check) {
-        printf("Error on string\n");
+        std::cout << "Error on string" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
 
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
     
     // TEST: len test
-    printf("  len test..");
+    std::cout << "  len test...";
 
     // int test
     if(il->len() != 3) check = false;
     if(!check) {
-        printf("Error on int\n");
+        std::cout << "Error on int" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
 
     // string test
     if(sl->len() != 3) check = false;
     if(!check) {
-        printf("Error on string\n");
+        std::cout << "Error on string" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
     
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 
     // TEST: remove test
-    printf("  remove test..");
+    std::cout << "  remove test...";
 
     // int test
     il->remove();
@@ -94,7 +109,9 @@ void test_list() {
     il->remove();
     if(il->len() != 0) check = false;
     if(!check) {
-        printf("Error on int\n");
+        std::cout << "Error on int" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
 
@@ -104,11 +121,17 @@ void test_list() {
     sl->remove();
     if(sl->len() != 0) check = false;
     if(!check) {
-        printf("Error on string\n");
+        std::cout << "Error on string" << std::endl;
+        delete il;
+        delete sl;
         return;
     }
     
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
+
+    // cleanup
+    delete il;
+    delete sl;
 
     return;
 }

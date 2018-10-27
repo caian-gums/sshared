@@ -29,7 +29,7 @@ wget http://www.shoup.net/ntl/${NTL}.tar.gz
 # GMP
 wget https://gmplib.org/download/gmp/${GMP}.tar.bz2
 # gf2x
-wget http://gforge.inria.fr/frs/download.php/file/30873/${GF2X}.tar.gz
+wget http://gforge.inria.fr/frs/download.php/file/36934/${GF2X}.tar.gz
 echo 'Download done!'
 # < \DOWNLOAD >
 
@@ -38,7 +38,7 @@ echo 'Extract files...'
 # NTL
 tar -xvzf ${NTL}.tar.gz
 # GMP
-tar -jzvf ${GMP}.tar.bz2
+tar -jxvf ${GMP}.tar.bz2
 # gf2x
 tar -xvzf ${GF2X}.tar.gz
 echo 'Extract done!'

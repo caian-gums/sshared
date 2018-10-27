@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdio.h>
 #include <string>
 
 #include "controller.h"
@@ -11,18 +10,18 @@
 
 int main(int argc, char* argv[]) {
 
-    std::string buf;
     Controller* con = new Controller();
     con->filter_message(argv, argc);
 
-    buf = con->print_information();
-    printf("%s\n", buf.c_str());
+    std::cout << con << std::endl;
 
     unsigned int p = 5;
     ShamirDealer* sd = new ShamirDealer(p);
-    buf = sd->print_information();
-    printf("%s\n", buf.c_str());
+    std::cout << sd << std::endl;
 
+    // cleanup
+    delete con;
+    delete sd;
 
     return 0;
 }

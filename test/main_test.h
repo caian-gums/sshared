@@ -2,7 +2,6 @@
 #define MAIN_TEST_H
 
 #include <iostream>
-#include <stdio.h>
 #include <string>
 
 // Controller include
@@ -19,7 +18,7 @@
 #include "list.h"
 
 /* controller tests */
-void test_controller(int argc, char* argv[]);
+void test_controller();
 
 /* list tests */
 void test_list();

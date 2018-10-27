@@ -1,54 +1,65 @@
+#!/bin/bash
 # constant colors
-BOLD='\033[1m'
-BOLD_GREEN='\033[1;32m'
-GREEN='\033[32m'
-BOLD_BLUE='\033[1;34m'
-BLUE='\033[34m'
-BOLD_MAGENTA='\033[1;35m'
-MAGENTA='\033[35m'
-NC='\033[0m'
+BOLD='\e[1m'
+BOLD_GREEN='\e[32;1m'
+GREEN='\e[32m'
+BOLD_BLUE='\e[34;1m'
+BLUE='\e[34m'
+BOLD_MAGENTA='\e[35;1m'
+MAGENTA='\e[35m'
+NC='\e[0m'
 
 echo "# ${BOLD}sshared ${NC}tests"
 echo
 
 echo " ${BOLD_GREEN}[RUN]${NC} ${BOLD}help information${NC}"
 ./stest -h > output 2> errout
+echo
 echo "${BOLD_BLUE} --> output${NC}"
+echo
 cat output
 
-if [ -s errout -o ]
+if [ -s errout ]
 then
     echo
     echo "${BOLD_MAGENTA} --2> error output${NC}"
+    echo
     cat errout
 fi
 
 echo
 echo " ${BOLD_GREEN}[RUN]${NC} ${BOLD}incorrect filter message${NC}"
 ./stest split -in my.file -n  > output 2> errout
+echo
 echo "${BOLD_BLUE} --> output${NC}"
+echo
 cat output
 
-if [ -s errout -o ]
+if [ -s errout ]
 then
     echo
     echo "${BOLD_MAGENTA} --2> error output${NC}"
+    echo
     cat errout
 fi
 
 echo
 echo " ${BOLD_GREEN}[RUN]${NC} ${BOLD}correct filter message${NC}"
 ./stest split -in my.file -t 3 -n 5 > output 2> errout
+echo
 echo "${BOLD_BLUE} --> output${NC}"
+echo
 cat output
 
-if [ -s errout -o ]
+if [ -s errout ]
 then
     echo
     echo "${BOLD_MAGENTA} --2> error output${NC}"
+    echo
     cat errout
 fi
 
 echo
 echo " -- ${MAGENTA} cleanup${NC} -- "
+echo
 rm test.txt

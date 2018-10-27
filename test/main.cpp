@@ -4,20 +4,20 @@
 // main test function
 int main(int argc, char* argv[]) {
 
-    printf("[test] controller... \n");
-    test_controller(argc, argv);
-
-    printf("\n");
-    printf("[test] shamir dealer... \n");
-    test_shamir_dealer();
-
-    printf("\n");
-    printf("[test] file... \n");
+    std::cout << "[test] file... " << std::endl;
     test_file();
 
-    printf("\n");
-    printf("[test] list... \n");
+    std::cout << std::endl;
+    std::cout << "[test] list... " << std::endl;
     test_list();
-    
+
+    std::cout << std::endl;
+    std::cout << "[test] shamir dealer... " << std::endl;
+    test_shamir_dealer();
+
+    std::cout << std::endl;
+    std::cout <<"[test] controller... " << std::endl;
+    test_controller();
+
     return 0;
 }

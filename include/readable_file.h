@@ -7,7 +7,6 @@ class ReadableFile : public File {
 public:
 
     ReadableFile(std::string path) : File(path) { }
-    ~ReadableFile();
 
     /* read method reads a file with the given path on object creation
      *

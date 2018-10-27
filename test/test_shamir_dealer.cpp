@@ -1,86 +1,73 @@
 /* main tests include */
 #include "main_test.h"
 
+// Mock values
+static const unsigned long p = 104471;
+static const std::string data = "a";
+
+// static const ShareTuple share_0("0", "97");
+static const ShareTuple share_1("1", "111");
+static const ShareTuple share_2("2", "187");
+static const ShareTuple share_3("3", "379");
+static const ShareTuple share_4("4", "741");
+
 void test_split_shamir_dealer() {
 
-    printf("  split test...");
+    std::cout << "  split test...";
 
-    std::string buf;
-    unsigned int p = 11;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "2";
-    List<std::string>* sl;
+    TupleList* tl;
     unsigned int t = 3;
     unsigned int n = 5;
-    sl = sd->split(data, t, n);
+    tl = sd->split(data, t, n);
 
-    if(!sl) check = false;
-    if(sl->len() != n) check = false;
-
-    // print list
-    /*
-    printf("\nsl: ");
-    if(!!sl) {
-        for(unsigned int i = 0; i < sl->len(); i++) {
-            printf("\nsl[%d] = '%s'", i, sl->get(i).c_str());
-        }
-        printf("\n");
-    }
-    */
- 
+    if(!tl) check = false;
+    if(tl->len() != n) check = false;
+    
     // cleanup
-    if(!!sl) delete sl;
+    if(!!tl) delete tl;
     if(!!sd) delete sd;
 
     if(!check) {
-        printf("Error on split\n");
+        std::cout << "Error" << std::endl;
         return;
     }
  
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 }
 
 void test_join_shamir_dealer() {
 
-    printf("  join test...");
+    std::cout << "  join test...";
 
-    std::string buf;
-    unsigned int p = 11;
     ShamirDealer* sd = new ShamirDealer(p);
     bool check = true;
 
-    std::string data = "2";
-    List<std::string>* sl = new List<std::string>();
+    TupleList* tl = new TupleList();
     // Match the known values from split
     // the secret must not be known
-    // sl->add("2");
-    sl->add("5");
-    sl->add("4");
-    sl->add("9");
-    sl->add("8");
-    std::string rv = sd->join(sl);
+    // tl->add(share_0); // 'a' = 97
+    tl->add(share_1);
+    tl->add(share_2);
+    tl->add(share_3);
+    tl->add(share_4);
+    std::string rv = sd->join(tl);
 
     if(rv.empty()) check = false;
     if(rv.compare(data) != 0) check = false;
 
-    // read rv
-    /*
-    if(!rv.empty()) {
-        printf("\nrv = %s\n", rv);
-    }
-    */
-
     // cleanup
-    if(!!sl) delete sl;
+    if(!!tl) delete tl;
+    if(!!sd) delete sd;
 
     if(!check) {
-        printf("Error on join\n");
+        std::cout << "Error" << std::endl;
         return;
     }
  
-    printf("Ok\n");
+    std::cout << "Ok" << std::endl;
 }
 
 /* shamir_dealer tests */

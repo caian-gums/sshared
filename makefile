@@ -32,6 +32,9 @@ OUT=sshared
 # test output
 TST_OUT=stest
 
+# test shares output
+TST_SHARES=*.share*
+
 # compile all
 all:
 	$(CXX) $(CFLAGS) $(INCLUDES) -o $(OUT) $(SRC) $(LIBS)
@@ -42,3 +45,6 @@ test:
 
 clean:
 	rm $(OUT) $(TST_OUT)
+
+veryclean:
+	rm $(OUT) $(TST_OUT) $(TST_SHARES)

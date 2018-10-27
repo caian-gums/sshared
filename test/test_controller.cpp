@@ -1,32 +1,83 @@
 /* test header include */
 #include "main_test.h"
 
-/* controller tests */
-void test_controller(int argc, char* argv[]) {
+static const int argc_error = 1;
+static const char* argv_error[argc_error] = {""};
 
-    // controler test
-    std::string buf;
+static const int argc_split = 10;
+static const char* argv_split[argc_split] = {
+    "sshare",
+    "split",
+    "-i",
+    "sample2.txt",
+    "-t",
+    "3",
+    "-n",
+    "5",
+    "-p",
+    "104471"
+};
+
+static const int argc_join = 12;
+static const char* argv_join[argc_join] = {
+    "sshare",
+    "join",
+    "-p",
+    "104471",
+    "-o",
+    "out_sample.txt",
+    "-l",
+    "sample2.txt.share0",
+    "sample2.txt.share1",
+    "sample2.txt.share2",
+    "sample2.txt.share3",
+    "sample2.txt.share4"
+};
+
+void test_filter_message() {
+
+    std::cout << "  filter_message test";
+
     Controller* con = new Controller();
-
     bool check = true;
-    // TEST: filter_message
-    printf("  filter_message...");
-    check = con->filter_message(argv, argc);
-    if(!check) {
-        printf("Error on filter message\n");
-        // cleanup
-        delete con;
-        return;
+
+    std::cout << std::endl;
+    std::cout << "    invalid call...";
+    check = con->filter_message(argv_error, argc_error);
+    if (check) {
+        std::cout << "Error" << std::endl;
+    } else {
+        std::cout << "Ok" << std::endl;
     }
+    delete con;
+    con = new Controller();
 
-    printf("Ok\n");
+    std::cout << "    split call...";
+    check = con->filter_message(argv_split, argc_split);
+    if(!check) {
+        std::cout << "Error" << std::endl;
+    } else {
+        std::cout << "Ok" << std::endl;
+    }
+    delete con;
+    con = new Controller();
 
-    /* output test
-    buf = con->print_information();
-    printf("%s\n", buf.c_str());
-    */
+    std::cout << "    join call...";
+    check = con->filter_message(argv_join, argc_join);
+    if(!check) {
+        std::cout << "Error" << std::endl;
+    } else {
+        std::cout << "Ok" << std::endl;
+    }
 
     // cleanup
     delete con;
+}
+
+/* controller tests */
+void test_controller() {
+
+    test_filter_message();
+
 }
 

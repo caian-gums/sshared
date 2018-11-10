@@ -1,9 +1,5 @@
 #include "controller.h"
 
-SS::Controller::~Controller() {
-    if(!_dealer) delete _dealer;
-}
-
 bool SS::Controller::filter_message(const char* mes[], int size) {
 
     // initial check
@@ -59,33 +55,16 @@ bool SS::Controller::filter_message(const char* mes[], int size) {
 
 }
 
-std::string SS::Controller::read(std::string from) {
-    SS::ReadableFile* in_file = new SS::ReadableFile(from);
-    in_file->open();
-    std::string data = in_file->read();
-    in_file->close();
-    delete in_file;
-    return data;
-}
-
-void SS::Controller::write(std::string content, std::string to) {
-    SS::WritableFile* out_file = new SS::WritableFile(to);
-    out_file->open();
-    out_file->write(content);
-    out_file->close();
-    delete out_file;
-}
-
 void SS::Controller::split() {
     if(this->_dealer_type.empty()) {
         std::cerr << "[sshared] Error: No Dealer Type defined" << std::endl;
     }
     if(this->_dealer_type.compare("shamir") == 0) {
         // read file
-        std::string data = this->read(this->_file_path);
+        std::string data = SS::FileHandler::read(this->_file_path);
 
         this->_dealer = new ShamirDealer(this->_p);
-        this->_es = new EvaluetedShares();
+        this->_es = new EvaluatedShares();
         SS::TupleList* tl;
 
         // step 1 - split each byte
@@ -105,25 +84,18 @@ void SS::Controller::split() {
             }
 
             std::string share_file_name = this->_file_path + ".share" + std::to_string(i);
-            this->write(out_share, share_file_name);
+            SS::FileHandler::write(out_share, share_file_name);
         }
 
         // cleanup
+        for (unsigned int i = 0; i < this->_es->len(); i++) {
+            delete this->_es->get(i);
+        }
         delete this->_es;
         delete this->_dealer;
         return;
     }
     std::cerr << "[sshared] Error: Dealer Type not supported" << std::endl;
-}
-
-SS::StringList* SS::Controller::split_string(std::string data, char delimiter) {
-    std::stringstream ssdata(data);
-    std::string token;
-    SS::StringList* lstring = new SS::StringList();
-    while(std::getline(ssdata, token, delimiter)) {
-        lstring->add(token);
-    }
-    return lstring;
 }
 
 void SS::Controller::join() {
@@ -132,14 +104,14 @@ void SS::Controller::join() {
     }
     if(this->_dealer_type.compare("shamir") == 0) {
 
-        this->_es = new EvaluetedShares();
+        this->_es = new EvaluatedShares();
 
         // step 1 - open files and get the shares
         for(unsigned int i = 0; i < this->_list_file_path->len(); i++) {
             // read the shares
-            std::string data = this->read(this->_list_file_path->get(i));
+            std::string data = SS::FileHandler::read(this->_list_file_path->get(i));
 
-            SS::StringList* lstring = this->split_string(data, '\n');
+            SS::StringList* lstring = SS::FileHandler::split_string(data, '\n');
             
             for(unsigned int j = 0; j < lstring->len(); j++) {
                 SS::TupleList* tl;
@@ -148,15 +120,18 @@ void SS::Controller::join() {
                     tl = new SS::TupleList();
                     this->_es->add(tl);
                 }
-                tl = this->_es->get(j);
                 // build the tuples
                 std::string line = lstring->get(j);
-                SS::StringList* elements = this->split_string(line, ',');
-                SS::ss_X x = elements->get(0);
-                SS::ss_Y y = elements->get(1);
+                SS::StringList* elements = SS::FileHandler::split_string(line, ',');
+                SS::ssX x = elements->get(0);
+                SS::ssY y = elements->get(1);
                 SS::ShareTuple st(x, y);
+                tl = this->_es->get(j);
                 tl->add(st);
+                delete elements;
             }
+
+            delete lstring;
         }
 
         // step 2 - join the shares
@@ -168,9 +143,12 @@ void SS::Controller::join() {
             out += this->_dealer->join(tl);
         }
 
-        this->write(out, this->_out_file_path);
+        SS::FileHandler::write(out, this->_out_file_path);
 
         // cleanup
+        for (unsigned int i = 0; i < this->_es->len(); i++) {
+            delete this->_es->get(i);
+        }
         delete this->_dealer;
         delete this->_es;
         return;
@@ -290,6 +268,6 @@ void SS::Controller::print_help() {
     std::cout << "      - t: minimum shares" << std::endl;
     std::cout << "      - n: number of shares" << std::endl;
     std::cout << "      - d: dealer type(shamir default)" << std::endl;
-    std::cout << "      - p: prime number used(29**CHANGE THIS** default)" << std::endl;
+    std::cout << "      - p: prime number used(104471**CHANGE THIS** default)" << std::endl;
     std::cout << "      - h: help information" << std::endl;
 }

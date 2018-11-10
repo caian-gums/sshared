@@ -14,12 +14,14 @@ LIBS=-L$(HOME)/sw/lib -lntl -lgmp -lgf2x -lm
 SRC= src/controller.cpp \
 	src/shamir_dealer.cpp \
 	util/file.cpp \
+	util/file_handler.cpp \
 	src/main.cpp
 
 # test source files
 TST_SRC= src/controller.cpp \
 	src/shamir_dealer.cpp \
 	util/file.cpp \
+	util/file_handler.cpp \
 	test/test_controller.cpp \
 	test/test_shamir_dealer.cpp \
 	test/test_file.cpp \

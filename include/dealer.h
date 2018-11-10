@@ -11,12 +11,12 @@
 namespace SS
 {
     // Value x of q(x)
-    typedef std::string ss_X;
+    typedef std::string ssX;
     // Value of q(x) based on x
-    typedef std::string ss_Y;
+    typedef std::string ssY;
 
     // Tuple definition
-    typedef Tuple<ss_X, ss_Y> ShareTuple;
+    typedef Tuple<ssX, ssY> ShareTuple;
 
     // List of shares
     typedef List<ShareTuple> TupleList;

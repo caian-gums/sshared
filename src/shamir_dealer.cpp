@@ -35,9 +35,9 @@ SS::TupleList* SS::ShamirDealer::split(std::string data, unsigned int t, unsigne
 
     for(unsigned int i = 0; i < n; i++) {
         NTL::ZZ_p val = NTL::random_ZZ_p();
-        ss_Y eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
-        ss_X index = std::to_string(NTL::conv<long>(val));
-        SS::Tuple<SS::ss_Y, SS::ss_X> tuple(index, eval);
+        SS::ssY eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
+        SS::ssX index = std::to_string(NTL::conv<long>(val));
+        SS::ShareTuple tuple(index, eval);
 
         rv->add(tuple);
     }
@@ -65,7 +65,6 @@ std::string SS::ShamirDealer::join(SS::TupleList* shares) {
     coef.SetLength((long) shares->len());
     ind.SetLength((long) shares->len());
 
-    // TODO: Create a better logic to this matching part
     for(long i = 0; i < shares->len(); i++) {
         ind[i] = NTL::conv<NTL::ZZ_p>(std::stoul(shares->get(i).first()));
         coef[i] = NTL::conv<NTL::ZZ_p>(std::stoul(shares->get(i).second()));

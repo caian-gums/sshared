@@ -2,7 +2,6 @@
 #define CONTROLLER_H
 
 #include <string>
-#include <sstream>
 
 // Util
 #include "list.h"
@@ -10,9 +9,8 @@
 // Dealers
 #include "shamir_dealer.h"
 
-// Files
-#include "readable_file.h"
-#include "writable_file.h"
+// File Handler
+#include "file_handler.h"
 
 // Used in error log
 #include <iostream>
@@ -20,8 +18,7 @@
 namespace SS
 {
     // List of Evaluated Shares as TupleLists
-    typedef List<TupleList*> EvaluetedShares;
-    typedef List<std::string> StringList;
+    typedef List<TupleList*> EvaluatedShares;
     
     class Controller {
     public:
@@ -32,7 +29,10 @@ namespace SS
             this->_p = 0;
             this->_dealer_type = "shamir";
         }
-        ~Controller();
+
+        ~Controller() {
+            if(!!this->_list_file_path) delete this->_list_file_path;
+        }
 
         /* filter_message filter the recieved message from input
         * program
@@ -55,8 +55,8 @@ namespace SS
         std::string _dealer_type;
         // Dealer Object
         Dealer* _dealer;
-        // EvaluetedShares of Shares
-        EvaluetedShares* _es;
+        // EvaluatedShares of Shares
+        EvaluatedShares* _es;
 
 
         /* set_value is a general setting value to filer_message.
@@ -80,32 +80,6 @@ namespace SS
 
         // print help information
         void print_help();
-
-        /** Split a string based on a delimiter and returns a StringList*
-         *
-         *  @param  data        std::string to be splited
-         *  @param  delimiter   character to be used as delimiter on split
-         *
-         *  @return StringList* with splited std::strings
-         */
-        StringList* split_string(std::string data, char delimiter);
-
-        /** Write a content inside a file
-         *
-         *  @param  content     std::string to be written
-         *  @param  to          filepath of the file
-         *
-         *  @return void
-         */
-        void write(std::string content, std::string to);
-
-        /** Read a file and place the content inside a std::string
-         *
-         *  @param  from        filepath of the file
-         *
-         *  @return std::string with the content of the file
-         */
-        std::string read(std::string from);
 
         /** Split a content as std::string
          *

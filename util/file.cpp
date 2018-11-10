@@ -42,13 +42,6 @@ std::string SS::ReadableFile::read() {
         buf += line;
         if(!this->fs.eof()) buf += "\n";
         i++;
-        if(i >= 10) {
-            // Error: file too big
-            std::cerr << "[File] File too big\n";
-            buf = "";
-            line = "";
-            return NULL;
-        }
     }
     return buf;
 

@@ -2,7 +2,7 @@
 #include "readable_file.h"
 #include "writable_file.h"
 
-void File::open() {
+void SS::File::open() {
     if(this->fp.empty()) {
         // Error: No filepath
         std::cerr << "[File] No filepath\n";
@@ -17,7 +17,7 @@ void File::open() {
     this->fs.open(this->fp.c_str());
 }
 
-void File::close() {
+void SS::File::close() {
     if(!this->fs.is_open()) {
         // No file opened
         std::cerr << "[File] No open file\n";
@@ -27,7 +27,7 @@ void File::close() {
     this->fs.close();
 }
 
-std::string ReadableFile::read() {
+std::string SS::ReadableFile::read() {
     if(!this->fs.is_open()) {
         // No file opened
         std::cerr << "[File] No open file\n";
@@ -54,7 +54,7 @@ std::string ReadableFile::read() {
 
 }
 
-void WritableFile::write(std::string val) {
+void SS::WritableFile::write(std::string val) {
     if(!this->fs.is_open()) {
         if(this->fp.empty()) {
             // No file path
@@ -70,7 +70,7 @@ void WritableFile::write(std::string val) {
     this->fs << val;
 }
 
-bool WritableFile::file_exist() {
+bool SS::WritableFile::file_exist() {
     if (FILE *f = fopen(this->fp.c_str(), "r")) {
         fclose(f);
         return true;
@@ -79,7 +79,7 @@ bool WritableFile::file_exist() {
     }
 }
 
-void WritableFile::file_create() {
+void SS::WritableFile::file_create() {
     std::ofstream os (this->fp);
     os.close(); 
 }

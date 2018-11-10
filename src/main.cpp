@@ -10,7 +10,7 @@
 
 int main(int argc, const char* argv[]) {
 
-    Controller* con = new Controller();
+    SS::Controller* con = new SS::Controller();
     con->filter_message(argv, argc);
 
     // cleanup

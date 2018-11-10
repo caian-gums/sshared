@@ -6,19 +6,19 @@ static const unsigned long p = 104471;
 static const std::string data = "a";
 
 // static const ShareTuple share_0("0", "97");
-static const ShareTuple share_1("1", "111");
-static const ShareTuple share_2("2", "187");
-static const ShareTuple share_3("3", "379");
-static const ShareTuple share_4("4", "741");
+static const SS::ShareTuple share_1("1", "111");
+static const SS::ShareTuple share_2("2", "187");
+static const SS::ShareTuple share_3("3", "379");
+static const SS::ShareTuple share_4("4", "741");
 
 void test_split_shamir_dealer() {
 
     std::cout << "  split test...";
 
-    ShamirDealer* sd = new ShamirDealer(p);
+    SS::ShamirDealer* sd = new SS::ShamirDealer(p);
     bool check = true;
 
-    TupleList* tl;
+    SS::TupleList* tl;
     unsigned int t = 3;
     unsigned int n = 5;
     tl = sd->split(data, t, n);
@@ -42,10 +42,10 @@ void test_join_shamir_dealer() {
 
     std::cout << "  join test...";
 
-    ShamirDealer* sd = new ShamirDealer(p);
+    SS::ShamirDealer* sd = new SS::ShamirDealer(p);
     bool check = true;
 
-    TupleList* tl = new TupleList();
+    SS::TupleList* tl = new SS::TupleList();
     // Match the known values from split
     // the secret must not be known
     // tl->add(share_0); // 'a' = 97

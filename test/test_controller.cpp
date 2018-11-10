@@ -38,7 +38,7 @@ void test_filter_message() {
 
     std::cout << "  filter_message test";
 
-    Controller* con = new Controller();
+    SS::Controller* con = new SS::Controller();
     bool check = true;
 
     std::cout << std::endl;
@@ -50,7 +50,7 @@ void test_filter_message() {
         std::cout << "Ok" << std::endl;
     }
     delete con;
-    con = new Controller();
+    con = new SS::Controller();
 
     std::cout << "    split call...";
     check = con->filter_message(argv_split, argc_split);
@@ -60,7 +60,7 @@ void test_filter_message() {
         std::cout << "Ok" << std::endl;
     }
     delete con;
-    con = new Controller();
+    con = new SS::Controller();
 
     std::cout << "    join call...";
     check = con->filter_message(argv_join, argc_join);

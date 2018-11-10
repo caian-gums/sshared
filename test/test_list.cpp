@@ -3,9 +3,9 @@
 
 /* list tests */
 void test_list() {
-    // List creation
-    List<int>* il = new List<int>();
-    List<std::string>* sl = new List<std::string>();
+    // SS::List creation
+    SS::List<int>* il = new SS::List<int>();
+    SS::List<std::string>* sl = new SS::List<std::string>();
 
     // TEST: add test
     bool check = true;

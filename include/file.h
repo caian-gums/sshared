@@ -4,30 +4,33 @@
 #include <iostream>
 #include <fstream>
 
-class File {
-public:
+namespace SS
+{
+    class File {
+    public:
 
-    File(std::string path) : fp(path) { }
-    ~File() { }
+        File(std::string path) : fp(path) { }
+        ~File() { }
 
-    /* open method open a file with the given path on object creation
-     *
-     *  @return void.
-     */
-    void open();
+        /* open method open a file with the given path on object creation
+        *
+        *  @return void.
+        */
+        void open();
 
-    /* close method closes the file that was opened
-     *
-     *  @return void.
-     */
-    void close();
+        /* close method closes the file that was opened
+        *
+        *  @return void.
+        */
+        void close();
 
-protected:
-    // file path
-    std::string fp;
-    // file stream
-    std::fstream fs;
+    protected:
+        // file path
+        std::string fp;
+        // file stream
+        std::fstream fs;
 
-};
- 
+    };
+}
+
 #endif

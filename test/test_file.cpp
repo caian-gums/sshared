@@ -8,7 +8,7 @@ void test_file() {
     std::string fp = "test.txt";
 
     // writable file
-    WritableFile* wf = new WritableFile(fp);
+    SS::WritableFile* wf = new SS::WritableFile(fp);
     wf->open();
     std::string wfbuf = "Test file.\n1 2 3 test";
     wf->write(wfbuf);
@@ -16,7 +16,7 @@ void test_file() {
     delete wf;
 
     // readable file
-    ReadableFile* rf = new ReadableFile(fp);
+    SS::ReadableFile* rf = new SS::ReadableFile(fp);
     rf->open();
     std::string rfbuf = rf->read();
     rf->close();

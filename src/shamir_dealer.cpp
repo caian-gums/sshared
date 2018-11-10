@@ -1,6 +1,6 @@
 #include "shamir_dealer.h"
 
-TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
+SS::TupleList* SS::ShamirDealer::split(std::string data, unsigned int t, unsigned int n) {
 
     // Error check
     if(t == 0) {
@@ -16,7 +16,7 @@ TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
         return NULL;
     }
 
-    TupleList* rv = new TupleList();
+    SS::TupleList* rv = new SS::TupleList();
 
     // Init ZZ_p
     NTL::ZZ prime = NTL::conv<NTL::ZZ>(this->p);
@@ -37,7 +37,7 @@ TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
         NTL::ZZ_p val = NTL::random_ZZ_p();
         ss_Y eval = std::to_string(NTL::conv<long>(NTL::eval(pol, val)));
         ss_X index = std::to_string(NTL::conv<long>(val));
-        Tuple<ss_Y, ss_X> tuple(index, eval);
+        SS::Tuple<SS::ss_Y, SS::ss_X> tuple(index, eval);
 
         rv->add(tuple);
     }
@@ -45,7 +45,7 @@ TupleList* ShamirDealer::split(std::string data, unsigned int t, unsigned int n)
     return rv;
 }
 
-std::string ShamirDealer::join(TupleList* shares) {
+std::string SS::ShamirDealer::join(SS::TupleList* shares) {
 
     // Error check
     if(!shares) {

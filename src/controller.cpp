@@ -1,10 +1,10 @@
 #include "controller.h"
 
-Controller::~Controller() {
+SS::Controller::~Controller() {
     if(!_dealer) delete _dealer;
 }
 
-bool Controller::filter_message(const char* mes[], int size) {
+bool SS::Controller::filter_message(const char* mes[], int size) {
 
     // initial check
     if(size < 2) {
@@ -59,8 +59,8 @@ bool Controller::filter_message(const char* mes[], int size) {
 
 }
 
-std::string Controller::read(std::string from) {
-    ReadableFile* in_file = new ReadableFile(from);
+std::string SS::Controller::read(std::string from) {
+    SS::ReadableFile* in_file = new SS::ReadableFile(from);
     in_file->open();
     std::string data = in_file->read();
     in_file->close();
@@ -68,15 +68,15 @@ std::string Controller::read(std::string from) {
     return data;
 }
 
-void Controller::write(std::string content, std::string to) {
-    WritableFile* out_file = new WritableFile(to);
+void SS::Controller::write(std::string content, std::string to) {
+    SS::WritableFile* out_file = new SS::WritableFile(to);
     out_file->open();
     out_file->write(content);
     out_file->close();
     delete out_file;
 }
 
-void Controller::split() {
+void SS::Controller::split() {
     if(this->_dealer_type.empty()) {
         std::cerr << "[sshared] Error: No Dealer Type defined" << std::endl;
     }
@@ -86,7 +86,7 @@ void Controller::split() {
 
         this->_dealer = new ShamirDealer(this->_p);
         this->_es = new EvaluetedShares();
-        TupleList* tl;
+        SS::TupleList* tl;
 
         // step 1 - split each byte
         for(unsigned int i = 0; i < data.length() - 1; i++) {
@@ -100,7 +100,7 @@ void Controller::split() {
             // write the Shares on each file
             for(unsigned int j = 0; j < this->_es->len(); j++) {
                 tl = this->_es->get(j);
-                ShareTuple st = tl->get(i);
+                SS::ShareTuple st = tl->get(i);
                 out_share += st.first() + "," + st.second() + "\n";
             }
 
@@ -116,17 +116,17 @@ void Controller::split() {
     std::cerr << "[sshared] Error: Dealer Type not supported" << std::endl;
 }
 
-StringList* Controller::split_string(std::string data, char delimiter) {
+SS::StringList* SS::Controller::split_string(std::string data, char delimiter) {
     std::stringstream ssdata(data);
     std::string token;
-    StringList* lstring = new StringList();
+    SS::StringList* lstring = new SS::StringList();
     while(std::getline(ssdata, token, delimiter)) {
         lstring->add(token);
     }
     return lstring;
 }
 
-void Controller::join() {
+void SS::Controller::join() {
     if(this->_dealer_type.empty()) {
         std::cerr << "[sshared] Error: No Dealer Type defined" << std::endl;
     }
@@ -139,22 +139,22 @@ void Controller::join() {
             // read the shares
             std::string data = this->read(this->_list_file_path->get(i));
 
-            StringList* lstring = this->split_string(data, '\n');
+            SS::StringList* lstring = this->split_string(data, '\n');
             
             for(unsigned int j = 0; j < lstring->len(); j++) {
-                TupleList* tl;
+                SS::TupleList* tl;
                 // check for tuples on es
                 if(this->_es->len() == 0 || j >= this->_es->len()) {
-                    tl = new TupleList();
+                    tl = new SS::TupleList();
                     this->_es->add(tl);
                 }
                 tl = this->_es->get(j);
                 // build the tuples
                 std::string line = lstring->get(j);
-                StringList* elements = this->split_string(line, ',');
-                ss_X x = elements->get(0);
-                ss_Y y = elements->get(1);
-                ShareTuple st(x, y);
+                SS::StringList* elements = this->split_string(line, ',');
+                SS::ss_X x = elements->get(0);
+                SS::ss_Y y = elements->get(1);
+                SS::ShareTuple st(x, y);
                 tl->add(st);
             }
         }
@@ -164,7 +164,7 @@ void Controller::join() {
         std::string out = "";
 
         for(unsigned int i = 0; i < this->_es->len(); i++) {
-            TupleList* tl = this->_es->get(i);
+            SS::TupleList* tl = this->_es->get(i);
             out += this->_dealer->join(tl);
         }
 
@@ -178,7 +178,7 @@ void Controller::join() {
     std::cerr << "[sshared] Error: Dealer Type not supported" << std::endl;
 }
 
-bool Controller::set_value(const char* arg, const char* value) {
+bool SS::Controller::set_value(const char* arg, const char* value) {
 
     if(arg[0] != '-') {
         std::cerr << "[ssshared] Error: Invalid argument passed: " << arg << std::endl;
@@ -224,7 +224,7 @@ bool Controller::set_value(const char* arg, const char* value) {
     return true;
 }
 
-void Controller::set_t(const char* value) {
+void SS::Controller::set_t(const char* value) {
     std::string v(value);
     try {
         this->_t = std::stoul(v);
@@ -233,7 +233,7 @@ void Controller::set_t(const char* value) {
     }
 }
 
-void Controller::set_n(const char* value) {
+void SS::Controller::set_n(const char* value) {
     std::string v(value);
     try {
         this->_n = std::stoul(v);
@@ -242,7 +242,7 @@ void Controller::set_n(const char* value) {
     }
 }
 
-void Controller::set_p(const char* value) {
+void SS::Controller::set_p(const char* value) {
     std::string v(value);
     try {
         this->_p = std::stoul(v);
@@ -251,15 +251,15 @@ void Controller::set_p(const char* value) {
     }
 }
 
-void Controller::set_file_path(const char* value) {
+void SS::Controller::set_file_path(const char* value) {
     this->_file_path = value;
 }
 
-void Controller::set_out_file_path(const char* value) {
+void SS::Controller::set_out_file_path(const char* value) {
     this->_out_file_path = value;
 }
 
-bool Controller::set_list_filepath(const char** value, int index, int size) {
+bool SS::Controller::set_list_filepath(const char** value, int index, int size) {
     this->_list_file_path = new StringList();
     for(int i = index+1; i < index+size; i++) {
         if (value[i][0] == '-') {
@@ -272,11 +272,11 @@ bool Controller::set_list_filepath(const char** value, int index, int size) {
     return true;
 }
 
-void Controller::set_dealer_type(const char* value) {
+void SS::Controller::set_dealer_type(const char* value) {
     this->_dealer_type = value;
 }
 
-void Controller::print_help() {
+void SS::Controller::print_help() {
     std::cout << "sshared lib help information: " << std::endl;
     std::cout << "Usage:" << std::endl;
     std::cout << "./sshared (<operation> <args>)|(-h)" << std::endl;

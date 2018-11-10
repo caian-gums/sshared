@@ -268,6 +268,6 @@ void SS::Controller::print_help() {
     std::cout << "      - t: minimum shares" << std::endl;
     std::cout << "      - n: number of shares" << std::endl;
     std::cout << "      - d: dealer type(shamir default)" << std::endl;
-    std::cout << "      - p: prime number used(104471**CHANGE THIS** default)" << std::endl;
+    std::cout << "      - p: prime number used(104471 default)" << std::endl;
     std::cout << "      - h: help information" << std::endl;
 }

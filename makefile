@@ -25,7 +25,7 @@ SRC= src/controller.cpp \
 STATIC_OBJ_PATH= bin/static/
 
 # standalone main
-STANDALONE_MAIN= src/main.cpp
+STANDALONE_MAIN= src/main_standalone.cpp
 
 # test source files
 TST_SRC= src/controller.cpp \

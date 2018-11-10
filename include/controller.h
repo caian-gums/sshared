@@ -26,7 +26,7 @@ namespace SS
         Controller() {
             this->_n = 0;
             this->_t = 0;
-            this->_p = 0;
+            this->_p = 104471;
             this->_dealer_type = "shamir";
         }
 

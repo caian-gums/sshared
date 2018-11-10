@@ -23,6 +23,7 @@ SRC= src/controller.cpp \
 
 # source files
 STATIC_OBJ_PATH= bin/static/
+SHARED_OBJ_PATH= bin/shared/
 
 # standalone main
 STANDALONE_MAIN= src/main_standalone.cpp
@@ -44,6 +45,9 @@ OUT=bin/sshared
 # static lib name
 OUT_STATIC=bin/sshared.a
 
+# shared lib name
+OUT_SHARED=bin/sshared.so
+
 # test output
 TST_OUT=stest
 
@@ -54,7 +58,7 @@ TST_SHARES=*.share*
 all:
 	$(CXX) $(CFLAGS) $(INCLUDES) -o $(OUT) $(SRC) $(STANDALONE_MAIN) $(LIBS)
 
-# compile all
+# compile static
 static: 
 	$(CXX) $(CFLAGS) $(INCLUDES) -c src/controller.cpp -o $(STATIC_OBJ_PATH)controller.o
 	$(CXX) $(CFLAGS) $(INCLUDES) -c src/shamir_dealer.cpp -o $(STATIC_OBJ_PATH)shamir_dealer.o
@@ -62,12 +66,20 @@ static:
 	$(CXX) $(CFLAGS) $(INCLUDES) -c util/file_handler.cpp -o $(STATIC_OBJ_PATH)file_handler.o
 	$(AR) $(ARFLAGS) $(OUT_STATIC) $(STATIC_OBJ_PATH)* 
 
+# compile dynamic
+dynamic: 
+	$(CXX) $(DYNAMIC_FLAGS) $(CFLAGS) $(INCLUDES) -c src/controller.cpp -o $(SHARED_OBJ_PATH)controller.o
+	$(CXX) $(DYNAMIC_FLAGS) $(CFLAGS) $(INCLUDES) -c src/shamir_dealer.cpp -o $(SHARED_OBJ_PATH)shamir_dealer.o
+	$(CXX) $(DYNAMIC_FLAGS) $(CFLAGS) $(INCLUDES) -c util/file.cpp -o $(SHARED_OBJ_PATH)file.o
+	$(CXX) $(DYNAMIC_FLAGS) $(CFLAGS) $(INCLUDES) -c util/file_handler.cpp -o $(SHARED_OBJ_PATH)file_handler.o
+	$(CXX) -shared $(CFLAGS) $(SHARED_OBJ_PATH)* -o $(OUT_SHARED)
+
 # compile test
 test:
 	$(CXX) $(CFLAGS_DEBUG) $(INCLUDES) -o $(TST_OUT) $(TST_SRC) $(LIBS)
 
 clean:
-	rm $(OUT) $(TST_OUT)
+	rm $(OUT) $(TST_OUT) $(OUT_STATIC) $(OUT_SHARED)
 
 veryclean:
-	rm $(OUT) $(STATIC_OBJ_PATH)* $(OUT_STATIC) $(TST_OUT) $(TST_SHARES)
+	rm $(OUT) $(STATIC_OBJ_PATH)* $(SHARED_OBJ_PATH)* $(OUT_STATIC) $(OUT_SHARED) $(TST_OUT) $(TST_SHARES)

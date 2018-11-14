@@ -23,7 +23,7 @@ bool SS::Controller::filter_message(const char* mes[], int size) {
     int nsize = size - 1;
 
     // check for number of arguments
-    if(nsize % 2 == 0 || nsize < 2) {
+    if(nsize < 2 || (sj.compare("join") > 0 && nsize % 2 == 0)) {
         std::cerr << "[sshared] Error:  Number of arguments incorrect. Use -h (help)" << std::endl;
         return false;
     }
